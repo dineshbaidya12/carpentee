@@ -64,3 +64,20 @@ if ($page == 'del-profilepic') {
         return $e;
     }
 }
+
+if ($page == 'del-profilepic-gen') {
+    $query = $mysqli->query("SELECT id FROM site_settings ORDER BY id ASC LIMIT 1");
+
+    if ($query) {
+        $result = $query->fetch_assoc();
+        $id = $result['id'];
+
+        $query = "UPDATE site_settings SET admin_img = '' WHERE id = $id";
+
+        if (mysqli_query($mysqli, $query)) {
+            return 'Profile Picture Removed Successfully.';
+        } else {
+            return 'Unable to remove profile picture becouse of ' . mysqli_error($con);
+        }
+    }
+}

@@ -20,7 +20,7 @@ if ($editId == 0) {
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt) {
         mysqli_stmt_bind_param($stmt, 'ssss', $name, $comment, $status, $inputDate);
-        $result = mysqli_execute($stmt);
+        $result = mysqli_stmt_execute($stmt);
         if ($result) {
             $isError = false;
             $editId = mysqli_insert_id($con);
@@ -68,16 +68,13 @@ if (!empty($_FILES['profile_picture']) && is_uploaded_file($_FILES['profile_pict
             if (in_array($imageInfo[2], $allowedTypes)) {
                 $newWidth = 100;
                 $newHeight = 100;
-
                 list($origWidth, $origHeight) = getimagesize($_FILES['profile_picture']['tmp_name']);
-
-                if ($imageInfo == 'jpg' || $imageInfo === 'jpeg') {
+                if ($extension == 'jpg' || $extension === 'jpeg') {
                     $image = imagecreatefromjpeg($_FILES['profile_picture']['tmp_name']);
                 } else {
                     $image = imagecreatefrompng($_FILES['profile_picture']['tmp_name']);
                 }
-
-
+                // $newHeight = imagesy($image) * ($newWidth / imagesx($image));
                 $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
                 imagecopyresized($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
 

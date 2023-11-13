@@ -18,6 +18,12 @@ $lat = $_POST['latitude'];
 $long = $_POST['longitute'];
 $comanyDesc = $_POST['comany_desc'];
 
+if ($adminName == '' || $userName == '' || $email == '' || $password == '' || $phone == '' || $siteName == '' || $siteTitle == '' || $location == '' || $lat == '' || $lat == '') {
+    $_SESSION['error_message'] = 'Please fill all the mendetory feild';
+    header('Location: ../site-settings.php');
+    exit();
+}
+
 $query = $mysqli->query("SELECT id FROM site_settings ORDER BY id ASC LIMIT 1");
 
 if ($query) {
@@ -62,7 +68,7 @@ if (!empty($_FILES['profile_picture']) && is_uploaded_file($_FILES['profile_pict
 
             list($origWidth, $origHeight) = getimagesize($_FILES['profile_picture']['tmp_name']);
 
-            if ($imageInfo == 'jpg' || $imageInfo === 'jpeg') {
+            if ($extension == 'jpg' || $extension === 'jpeg') {
                 $image = imagecreatefromjpeg($_FILES['profile_picture']['tmp_name']);
             } else {
                 $image = imagecreatefrompng($_FILES['profile_picture']['tmp_name']);
