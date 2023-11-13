@@ -1,0 +1,32 @@
+.furniture-form {
+    width: 80%;
+    margin: auto;
+}
+
+.user-dp {
+    max-width: 75px;
+    width: 75px;
+    object-fit: cover;
+    margin: auto;
+    border-radius: 50%;
+    height: 75px;
+}
+
+#dp-div {
+    max-width: 75px;
+    width: 75px;
+    margin: auto;
+    border-radius: 50%;
+    position: relative;
+}
+
+.cross {
+    position: absolute;
+    top: -21px;
+    right: -29px;
+    font-size: 20px;
+    font-weight: bold;
+    user-select: none;
+    cursor: pointer;
+    display: none;
+}
