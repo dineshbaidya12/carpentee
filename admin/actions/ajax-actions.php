@@ -81,3 +81,66 @@ if ($page == 'del-profilepic-gen') {
         }
     }
 }
+
+if ($page == 'del-featureimg') {
+    try {
+        $id = $_POST['id'];
+
+        $sql = "SELECT * FROM services where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $sql = 'SELECT `image` FROM services WHERE id = ' . $id;
+            $result = mysqli_query($con, $sql);
+            if (!$result) {
+                return 'Error: ' . mysqli_error($con);
+            }
+            if ($row = mysqli_fetch_assoc($result)) {
+                if ($row['image'] != null || $row['image'] != '') {
+                    $imagePath = '../assets/images/services/' . $row['image'];
+                    if (file_exists($imagePath) && unlink($imagePath)) {
+                        $sql2 = 'UPDATE services SET `image` = null WHERE id = ' . $id;
+                        $result2 = mysqli_query($con, $sql2);
+                        return 'Image Deleted Successfully';
+                    }
+                } else {
+                    return 'Image not found in the database';
+                }
+            } else {
+                return 'Record not found in the database';
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
+
+if ($page == 'del-services') {
+    try {
+        $id = $_POST['id'];
+        $sql = "SELECT * FROM services where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $image = $row['image'];
+            if (!empty($image) || $image != null || $image != '') {
+                $imgPath = '../assets/images/services/' . $image;
+                if (file_exists($imgPath)) {
+                    unlink($imgPath);
+                }
+            }
+            $sql2 = 'DELETE FROM services WHERE id = ' . $id . '';
+            $result2 = mysqli_query($con, $sql2);
+            if ($result2) {
+                return 'Services Deleted Successfully';
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}

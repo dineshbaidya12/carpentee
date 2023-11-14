@@ -10,25 +10,22 @@ include 'sidebar.php';
 
 <div class="content-wrapper">
     <?php
-    $isEdit = 'Add testimonials';
+    $isEdit = 'Add Services';
     if (isset($_GET['pageid'])) {
-        $isEdit = 'Edit Testimonials';
+        $isEdit = 'Edit Services';
         $pageId = $_GET['pageid'];
-        $sql = "SELECT * FROM testimonials WHERE id = " . $pageId;
+        $sql = "SELECT * FROM services WHERE id = " . $pageId;
         $result = mysqli_query($con, $sql);
 
         if ($result) {
             if ($row = mysqli_fetch_assoc($result)) {
-                $name = $row['name'];
-                $comment = $row['comment'];
-                $status = $row['status'];
-                $profilePic = $row['image'];
-                $date = $row['created_date'];
+                $heading = $row['heading'];
+                $content = $row['content'];
+                $featureImage = $row['image'];
             }
         }
     }
-    $profilePic = $profilePic ?? '';
-    $status = $status ?? '';
+    $featureImage = $featureImage ?? '';
     ?>
 
     <!-- Heading Which Page -->
@@ -43,7 +40,7 @@ include 'sidebar.php';
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                        <li class="breadcrumb-item"><a href="testimonials.php">Testimonials</a></li>
+                        <li class="breadcrumb-item"><a href="services.php">Services</a></li>
                         <li class="breadcrumb-item active">
                             <?php echo $isEdit; ?>
                         </li>
@@ -58,15 +55,15 @@ include 'sidebar.php';
     <section class="content">
         <div class="container-fluid">
             <div class="start-content">
-                <form class="furniture-form" method="POST" enctype="multipart/form-data" action="actions/add-edit-testimonials.php">
+                <form class="furniture-form" method="POST" enctype="multipart/form-data" action="actions/add-edit-services.php">
                     <input type="hidden" name="editId" value="<?php echo $pageId ?? 0; ?>">
                     <div class="input-group mb-3">
                         <div id="dp-div">
                             <img src="<?php
-                                        if (empty($profilePic) || !file_exists('assets/images/testimonials/' . $profilePic)) {
-                                            echo 'assets/images/default-user.jpg';
+                                        if (empty($featureImage) || !file_exists('assets/images/services/' . $featureImage)) {
+                                            echo '../images/default.png';
                                         } else {
-                                            echo 'assets/images/testimonials/' . $profilePic;
+                                            echo 'assets/images/services/' . $featureImage;
                                         }
                                         ?>" class="user-dp" id="user-dp" alt="Profile Picture">
                             <span class="cross" id="cross">
@@ -74,7 +71,7 @@ include 'sidebar.php';
                             </span>
 
                             <?php
-                            if ($profilePic != '' && file_exists('assets/images/testimonials/' . $profilePic)) {
+                            if ($featureImage != '' && file_exists('assets/images/services/' . $featureImage)) {
                                 echo '
                                 <i class="fas fa-trash" id="remove-dp" data-id="' . $pageId . '" style="color: red; right: -50px; bottom: 0px; position: absolute; cursor:pointer;" data-toggle="tooltip" title="Remove The Profile Picture"></i>
                                 ';
@@ -84,35 +81,19 @@ include 'sidebar.php';
                     </div>
                     <div class="input-group mb-3">
                         <div class="custom-file">
-                            <label class="custom-file-label" for="profilePicInput">Select a profile picture</label>
-                            <input type="file" class="custom-file-input" id="profilePicInput" accept=".png, .jpg, .jpeg" name="profile_picture">
+                            <label class="custom-file-label" for="profilePicInput">Select a Feature Image</label>
+                            <input type="file" class="custom-file-input" id="profilePicInput" accept=".png, .jpg, .jpeg" name="feature_image">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress">Name <span class="astric">*</span></label>
-                        <input type="text" class="form-control" id="inputName" name="input_name" value="<?php echo $name ?? ''; ?>" required>
+                        <label for="inputAddress">Heading <span class="astric">*</span></label>
+                        <input type="text" class="form-control" id="inputName" name="heading" value="<?php echo $heading ?? ''; ?>" required>
                     </div>
                     <div class="form-group">
                         <label for="inputAddress2">Comment <span class="astric">*</span></label>
-                        <textarea name="comment" id="comment" class="comment form-control" style="resize:none; margin-bottom:10px;" required><?php echo $comment ?? ''; ?></textarea>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputCity">Comment Date</label>
-                                <input type="date" class="form-control" id="inputdate" name="input_date" value="<?php echo $date ?? ''; ?>">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputStatus">Status</label>
-                                <select id="inputStatus" class="form-control" name="input_status">
-                                    <option value="active" <?php if ($status == 'active') {
-                                                                echo 'selected';
-                                                            } ?>>Active</option>
-                                    <option value="inactive" <?php if ($status == 'inactive') {
-                                                                    echo 'selected';
-                                                                } ?>>Inctive</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <textarea name="comment" id="comment" class="comment form-control" style="resize:none; margin-bottom:10px; height:120px;" required><?php echo $content ?? ''; ?></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
@@ -120,14 +101,6 @@ include 'sidebar.php';
 </div>
 
 <script>
-    // current date select autometically 
-    const inputDate = document.getElementById("inputdate");
-    if (inputDate.value == null || inputDate.value == '') {
-        const currentDate = new Date().toISOString().slice(0, 10);
-        inputDate.value = currentDate;
-    }
-
-
     //profie picture
     const imageInput = document.getElementById("profilePicInput");
     const selectedImage = document.getElementById("user-dp");
@@ -146,7 +119,7 @@ include 'sidebar.php';
     //cross img
     $('#cross').on('click', function(e) {
         $('#profilePicInput').val('');
-        $('#user-dp').attr('src', 'assets/images/default-user.jpg');
+        $('#user-dp').attr('src', '../images/default.png');
         $(this).css('display', 'none');
     });
 
@@ -158,22 +131,20 @@ include 'sidebar.php';
     //form validation
     $('.furniture-form').validate({
         rules: {
-            input_name: "required",
+            heading: "required",
             comment: "required",
         },
         messages: {
-            input_name: "Please enter User Name",
-            comment: "Please enter User Comment",
+            heading: "Please Enter the heading",
+            comment: "Please write details about the service",
         }
     });
-
-
 
     //remove dp
     $('#remove-dp').on('click', function(e) {
         let id = $(this).data('id');
         Swal.fire({
-            title: 'Are you sure you want to delete this profile picture?',
+            title: 'Are you sure you want to delete this feature image?',
             text: 'Do you want to confirm this action?',
             icon: 'warning',
             showCancelButton: true,
@@ -185,7 +156,7 @@ include 'sidebar.php';
                     type: 'POST',
                     data: {
                         'id': id,
-                        'pageIs': 'del-profilepic'
+                        'pageIs': 'del-featureimg'
                     },
                     url: 'actions/ajax-actions.php',
                     success: function(data) {
@@ -193,7 +164,7 @@ include 'sidebar.php';
                         // setTimeout(() => {
                         //     window.location.reload();
                         // }, 2000);
-                        $('#user-dp').attr('src', 'assets/images/default-user.jpg');
+                        $('#user-dp').attr('src', '../images/default.png');
                         $('#remove-dp').css('display', 'none');
                     },
                     error: function(data) {

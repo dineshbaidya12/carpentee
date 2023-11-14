@@ -30,3 +30,59 @@
     cursor: pointer;
     display: none;
 }
+
+#dataTableShowing{
+    font-size: 14.6px;
+    text-align: center !important;
+}
+
+#dataTableShowing thead th {
+    font-size: 15px;
+    text-align: center !important;
+}
+
+.user-profile-pic {
+    max-width: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+}
+
+.even .comment {
+    max-height: 47px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-bottom: 0;
+}
+
+.odd .comment {
+    max-height: 70px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-bottom: 0;
+}
+
+.action-btn {
+    padding: 3px;
+}
+
+.edit {
+    color: #009fff;
+}
+
+.trash {
+    color: #ff3636;
+}
+
+.fas:hover {
+    color: black;
+}
+
+.add-btn {
+    margin-left: auto !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+}

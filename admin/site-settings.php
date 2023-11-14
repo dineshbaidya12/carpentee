@@ -72,7 +72,7 @@ if ($query) {
                             </span>
 
                             <?php
-                            if ($profilePic != '') {
+                            if ($profilePic != '' && file_exists('assets/images/admin-details/' . $profilePic)) {
                                 echo '
                                 <i class="fas fa-trash" id="remove-dp" data-id="' . $result['id'] . '" style="color: red; right: -50px; bottom: 0px; position: absolute; cursor:pointer;" data-toggle="tooltip" title="Remove The Profile Picture"></i>
                                 ';
@@ -268,11 +268,11 @@ if ($query) {
             },
             latitude: {
                 required: true,
-                number: true // Ensures that the value is a number
+                number: true
             },
             longitude: {
                 required: true,
-                number: true // Ensures that the value is a number
+                number: true
             }
         }
     });

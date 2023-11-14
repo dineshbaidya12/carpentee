@@ -1,13 +1,20 @@
 <?php
 include 'head.php';
 ?>
+<style>
+    .user-profile-pic {
+        box-shadow: 1px 1px 1px;
+        height: 35px;
+        width: 35px;
+        object-fit: cover;
+    }
+</style>
 <?php
 include 'header.php';
 ?>
 <?php
 include 'sidebar.php';
 ?>
-
 
 <div class="content-wrapper">
 
@@ -16,12 +23,12 @@ include 'sidebar.php';
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Testimonial</h1>
+                    <h1 class="m-0">Services</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                        <li class="breadcrumb-item active">Testimonial</li>
+                        <li class="breadcrumb-item active">Services</li>
                     </ol>
                 </div>
             </div>
@@ -32,24 +39,22 @@ include 'sidebar.php';
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-
-            <a href="add-edit-testimonials.php"><button class="btn btn-primary add-btn">Add New
-                    Testimonials</button></a>
+            <a href="add-edit-services.php"><button class="btn btn-primary add-btn">Add New
+                    Service</button></a>
             <table id="dataTableShowing" class="display">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Image</th>
-                        <th>Name</th>
+                        <th>Heading</th>
                         <th>Comment</th>
-                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     <?php
-                    $sql = "SELECT * FROM testimonials";
+                    $sql = "SELECT * FROM services";
                     $result = mysqli_query($con, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
@@ -62,30 +67,26 @@ include 'sidebar.php';
                                 <td>
                                     <?php
                                     if ($row['image'] == null || $row['image'] == '') {
-                                        echo '<img src="assets/images/default-user.jpg" class="user-profile-pic">';
+                                        echo '<img src="../images/default.png" class="user-profile-pic">';
                                     } else {
-                                        if (file_exists('assets/images/testimonials/' . $row['image'])) {
-                                            echo '<img src="assets/images/testimonials/' . $row['image'] . '" class="user-profile-pic">';
+                                        if (file_exists('assets/images/services/' . $row['image'])) {
+                                            echo '<img src="assets/images/services/' . $row['image'] . '" class="user-profile-pic">';
                                         } else {
-                                            echo '<img src="assets/images/default-user.jpg" class="user-profile-pic">';
+                                            echo '<img src="../images/default.png" class="user-profile-pic">';
                                         }
                                     }
                                     ?>
-
                                 </td>
                                 <td>
-                                    <?php echo $row['name']; ?>
+                                    <?php echo $row['heading']; ?>
                                 </td>
                                 <td>
                                     <p class="comment">
-                                        <?php echo $row['comment']; ?>
+                                        <?php echo $row['content']; ?>
                                     </p>
                                 </td>
                                 <td>
-                                    <?php echo ucfirst($row['status']); ?>
-                                </td>
-                                <td>
-                                    <a href="add-edit-testimonials.php?pageid=<?php echo $row['id']; ?>">
+                                    <a href="add-edit-services.php?pageid=<?php echo $row['id']; ?>">
                                         <button class="btn action-btn edit-action-btn" data-id="<?php echo $row['id']; ?>">
                                             <i class="fas fa-solid fa-edit edit"></i>
                                         </button>
@@ -102,8 +103,6 @@ include 'sidebar.php';
                 </tbody>
             </table>
 
-
-
         </div>
     </section>
 </div>
@@ -116,22 +115,12 @@ include 'sidebar.php';
             }, {
                 width: '7%'
             }, {
-                width: '25%'
+                width: '30%'
             }, {
-                width: '35%'
-            }, {
-                width: '11%'
+                width: '40%'
             }, {
                 width: '15%'
             }]
-        });
-
-        $('.edit-action-btn').on('click', function(e) {
-            $('#edit-testimonial').modal('show');
-        });
-
-        $('#edit-testimonial .show').on('click', function(e) {
-            e.preventDefault();
         });
 
         $('.trash-btn').on('click', function(e) {
@@ -149,7 +138,7 @@ include 'sidebar.php';
                         type: 'POST',
                         data: {
                             'id': id,
-                            'pageIs': 'del-testimonials'
+                            'pageIs': 'del-services'
                         },
                         url: 'actions/ajax-actions.php',
                         success: function(data) {
