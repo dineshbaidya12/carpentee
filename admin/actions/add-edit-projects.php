@@ -2,27 +2,36 @@
 session_start();
 include '../../configuration.php';
 
-$heading = $_POST['heading'];
-$content = $_POST['comment'];
-$editId = $_POST['editId'];
-$isError = true;
-if ($content == '' || $heading == '') {
+$ProjectName = $_POST["prject_name"] ?? '';
+$description = $_POST["description"] ?? '';
+$inputDate = $_POST["input_date"] ?? '';
+$inputStatus = $_POST["input_status"] ?? '';
+$featureImage = $_FILES["feature_image"] ?? '';
+$editId = $_POST["editId"] ?? 0;
+
+if ($ProjectName  == "" || $description == "" || $input_date == "" || $inputStatus == "") {
     $_SESSION['error_message'] = 'Please Fill All The Mendatory Feild';
-    header('Location: ../services.php');
+    header('Location: ../projects.php');
     exit;
+} else {
+    if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image']['tmp_name'])) {
+        $_SESSION['error_message'] = 'Please Select a Feature Image';
+        header('Location: ../projects.php');
+        exit;
+    }
 }
 
 if ($editId == 0) {
     // Insert
-    $sql = "INSERT INTO services (`heading`, `content`) VALUES (?, ?)";
+    $sql = "INSERT INTO projects (`name`, `details`, `status`, `created_date`) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ss', $heading, $content);
+        mysqli_stmt_bind_param($stmt, 'ssss', $ProjectName, $description, $inputStatus, $inputDate);
         $result = mysqli_stmt_execute($stmt);
         if ($result) {
             $isError = false;
             $editId = mysqli_insert_id($con);
-            $_SESSION['success_message'] = 'Services Inserted Successfully';
+            $_SESSION['success_message'] = 'Projects Inserted Successfully';
         } else {
             $editId = 0;
             $_SESSION['error_message'] = 'Error: ' . mysqli_error($con);
@@ -31,11 +40,11 @@ if ($editId == 0) {
     }
 } else {
     // Update
-    $sql = "UPDATE services SET `heading` = ?, `content` = ? WHERE id = ?";
+    $sql = "UPDATE projects SET `name` = ?, `details` = ?, `status` = ?, `created_date` = ? WHERE id = ?";
     $stmt = mysqli_prepare($con, $sql);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ssi', $heading, $content, $editId);
+        mysqli_stmt_bind_param($stmt, 'ssssi', $ProjectName, $description, $inputStatus, $inputDate, $editId);
         $result = mysqli_stmt_execute($stmt);
 
         if (!$result) {
@@ -43,7 +52,7 @@ if ($editId == 0) {
             $_SESSION['error_message'] = 'Error: ' . mysqli_error($con);
         } else {
             $isError = false;
-            $_SESSION['success_message'] = 'Services Updated Successfully';
+            $_SESSION['success_message'] = 'Projects Updated Successfully';
         }
         mysqli_stmt_close($stmt);
     } else {
@@ -54,8 +63,8 @@ if ($editId == 0) {
 
 if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image']['tmp_name'])) {
     if (!$isError) {
-        $uploadDir = '../assets/images/services/';
-        $name = 'services_' . $editId;
+        $uploadDir = '../assets/images/projects/';
+        $name = 'project_' . $editId;
         $filename = $_FILES['feature_image']['name'];
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $uploadFile = $name .  '.' . $extension;
@@ -64,9 +73,9 @@ if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image'
         if ($imageInfo !== false) { // Check if it's a valid image
             $allowedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG);
             if (in_array($imageInfo[2], $allowedTypes)) {
-                $newWidth = 360;
                 $newHeight = 262;
                 list($origWidth, $origHeight) = getimagesize($_FILES['feature_image']['tmp_name']);
+                $newWidth = $newHeight * ($origWidth / $origHeight);
                 if ($extension == 'jpg' || $extension === 'jpeg') {
                     $image = imagecreatefromjpeg($_FILES['feature_image']['tmp_name']);
                 } else {
@@ -103,6 +112,9 @@ if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image'
         }
     }
 }
-// echo mysqli_error($con);
-header('Location: ../services.php');
-exit();
+
+
+// echo '<pre>';
+// foreach ($_FILES['multiple_images'] as $imgs) {
+//     print_r($imgs);
+// }

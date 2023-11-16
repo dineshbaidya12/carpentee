@@ -89,6 +89,21 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="projects.php" class="nav-link 
+                    <?php
+                    if ($pagename[3] == 'projects.php' || explode('?', $pagename[3])[0] == 'add-edit-projects.php') {
+                        echo 'active';
+                    }
+                    ?>
+                    ">
+                        <i class="nav-icon fas fa-hammer"></i>
+                        <p>
+                            Projects
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="testimonials.php" class="nav-link 
                     <?php
                     if ($pagename[3] == 'testimonials.php' || explode('?', $pagename[3])[0] == 'add-edit-testimonials.php') {

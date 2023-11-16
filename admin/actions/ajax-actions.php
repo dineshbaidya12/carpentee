@@ -144,3 +144,31 @@ if ($page == 'del-services') {
         return $e;
     }
 }
+
+if ($page == "del-single-img") {
+    try {
+        $id = $_POST['id'];
+        $sql = "SELECT * FROM project_images where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $image = $row['image'];
+            if (!empty($image) || $image != null || $image != '') {
+                $imgPath = '../assets/images/projects/sub-imgs/' . $image;
+                if (file_exists($imgPath)) {
+                    unlink($imgPath);
+                }
+            }
+            $sql2 = 'DELETE FROM project_images WHERE id = ' . $id . '';
+            $result2 = mysqli_query($con, $sql2);
+            if ($result2) {
+                return 'Project Image Deleted Successfully';
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
