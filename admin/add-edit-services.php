@@ -22,9 +22,11 @@ include 'sidebar.php';
                 $heading = $row['heading'];
                 $content = $row['content'];
                 $featureImage = $row['image'];
+                $status = $row["status"];
             }
         }
     }
+    $status = $status ?? '';
     $featureImage = $featureImage ?? '';
     ?>
 
@@ -92,6 +94,19 @@ include 'sidebar.php';
                     <div class="form-group">
                         <label for="inputAddress2">Comment <span class="astric">*</span></label>
                         <textarea name="comment" id="comment" class="comment form-control" style="resize:none; margin-bottom:10px; height:120px;" required><?php echo $content ?? ''; ?></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputStatus">Status</label>
+                            <select id="inputStatus" class="form-control" name="input_status">
+                                <option value="active" <?php if ($status == 'active') {
+                                                            echo 'selected';
+                                                        } ?>>Active</option>
+                                <option value="inactive" <?php if ($status == 'inactive') {
+                                                                echo 'selected';
+                                                            } ?>>Inctive</option>
+                            </select>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

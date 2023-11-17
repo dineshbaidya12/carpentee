@@ -48,6 +48,7 @@ include 'sidebar.php';
                         <th>Image</th>
                         <th>Heading</th>
                         <th>Comment</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -86,6 +87,9 @@ include 'sidebar.php';
                                     </p>
                                 </td>
                                 <td>
+                                    <?php echo $row['status']; ?>
+                                </td>
+                                <td>
                                     <a href="add-edit-services.php?pageid=<?php echo $row['id']; ?>">
                                         <button class="btn action-btn edit-action-btn" data-id="<?php echo $row['id']; ?>">
                                             <i class="fas fa-solid fa-edit edit"></i>
@@ -115,9 +119,11 @@ include 'sidebar.php';
             }, {
                 width: '7%'
             }, {
-                width: '30%'
+                width: '24%'
             }, {
                 width: '40%'
+            }, {
+                width: '6%'
             }, {
                 width: '15%'
             }]

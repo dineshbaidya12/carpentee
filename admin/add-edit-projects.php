@@ -27,6 +27,12 @@ include 'head.php';
         right: -15px;
         z-index: 500;
     }
+
+    .custom-file .error {
+        position: absolute;
+        z-index: 999;
+        bottom: -28px;
+    }
 </style>
 <?php
 include 'header.php';
@@ -53,6 +59,19 @@ include 'sidebar.php';
                 $date = $row['created_date'];
             }
         }
+        unset($_SESSION['bkp_name']);
+        unset($_SESSION['bkp_desc']);
+        unset($_SESSION['bkp_status']);
+        unset($_SESSION['bkp_date']);
+    } else {
+        $name = $_SESSION['bkp_name'] ?? '';
+        $details = $_SESSION['bkp_desc'] ?? '';
+        $status = $_SESSION['bkp_status'] ?? '';
+        $date = $_SESSION['bkp_date'] ?? '';
+        unset($_SESSION['bkp_name']);
+        unset($_SESSION['bkp_desc']);
+        unset($_SESSION['bkp_status']);
+        unset($_SESSION['bkp_date']);
     }
     $mainImg = $mainImg ?? '';
     $status = $status ?? '';

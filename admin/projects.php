@@ -40,8 +40,8 @@ include 'sidebar.php';
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <a href="add-edit-services.php"><button class="btn btn-primary add-btn">Add New
-                    Service</button></a>
+            <a href="add-edit-projects.php"><button class="btn btn-primary add-btn">Add New
+                    Project</button></a>
             <table id="dataTableShowing" class="display">
                 <thead>
                     <tr>
@@ -50,6 +50,7 @@ include 'sidebar.php';
                         <th>Project Name</th>
                         <th>Content</th>
                         <th>Project Date</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -93,6 +94,11 @@ include 'sidebar.php';
                                     ?>
                                 </td>
                                 <td>
+                                    <?php
+                                    echo $row['status'];
+                                    ?>
+                                </td>
+                                <td>
                                     <a href="add-edit-projects.php?pageid=<?php echo $row['id']; ?>">
                                         <button class="btn action-btn edit-action-btn" data-id="<?php echo $row['id']; ?>">
                                             <i class="fas fa-solid fa-edit edit"></i>
@@ -126,7 +132,9 @@ include 'sidebar.php';
             }, {
                 width: '36%'
             }, {
-                width: '15%'
+                width: '11%'
+            }, {
+                width: '5%'
             }, {
                 width: '15%'
             }]

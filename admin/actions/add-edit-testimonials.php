@@ -60,7 +60,7 @@ if (!empty($_FILES['profile_picture']) && is_uploaded_file($_FILES['profile_pict
         $name = str_replace(' ', '_', $name);
         $filename = $_FILES['profile_picture']['name'];
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
-        $uploadFile = $name . '_' . $editId . '.' . $extension;
+        $uploadFile = $name . '_' . $editId . '.jpg';
 
         $imageInfo = getimagesize($_FILES['profile_picture']['tmp_name']);
         if ($imageInfo !== false) { // Check if it's a valid image

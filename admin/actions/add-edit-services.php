@@ -5,6 +5,7 @@ include '../../configuration.php';
 $heading = $_POST['heading'];
 $content = $_POST['comment'];
 $editId = $_POST['editId'];
+$status = $_POST['input_status'];
 $isError = true;
 if ($content == '' || $heading == '') {
     $_SESSION['error_message'] = 'Please Fill All The Mendatory Feild';
@@ -14,10 +15,10 @@ if ($content == '' || $heading == '') {
 
 if ($editId == 0) {
     // Insert
-    $sql = "INSERT INTO services (`heading`, `content`) VALUES (?, ?)";
+    $sql = "INSERT INTO services (`heading`, `content`, `status`) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ss', $heading, $content);
+        mysqli_stmt_bind_param($stmt, 'sss', $heading, $content, $status);
         $result = mysqli_stmt_execute($stmt);
         if ($result) {
             $isError = false;
@@ -31,11 +32,11 @@ if ($editId == 0) {
     }
 } else {
     // Update
-    $sql = "UPDATE services SET `heading` = ?, `content` = ? WHERE id = ?";
+    $sql = "UPDATE services SET `heading` = ?, `content` = ?, `status` = ? WHERE id = ?";
     $stmt = mysqli_prepare($con, $sql);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ssi', $heading, $content, $editId);
+        mysqli_stmt_bind_param($stmt, 'sssi', $heading, $content, $status, $editId);
         $result = mysqli_stmt_execute($stmt);
 
         if (!$result) {
@@ -58,7 +59,7 @@ if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image'
         $name = 'services_' . $editId;
         $filename = $_FILES['feature_image']['name'];
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
-        $uploadFile = $name .  '.' . $extension;
+        $uploadFile = $name .  '.jpg';
 
         $imageInfo = getimagesize($_FILES['feature_image']['tmp_name']);
         if ($imageInfo !== false) { // Check if it's a valid image

@@ -172,3 +172,47 @@ if ($page == "del-single-img") {
         return $e;
     }
 }
+
+if ($page == 'del-projects') {
+    try {
+        $id = $_POST['id'];
+        $sql = "SELECT * FROM projects where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $image = $row['main_img'];
+            if (!empty($image) || $image != null || $image != '') {
+                $imgPath = '../assets/images/projects/' . $image;
+                if (file_exists($imgPath)) {
+                    unlink($imgPath);
+                }
+            }
+            $sql2 = 'DELETE FROM projects WHERE id = ' . $id . '';
+            $result2 = mysqli_query($con, $sql2);
+
+            $nxtSql = "SELECT * FROM project_images where project_id=" . $id . "";
+            $nxtResult = mysqli_query($con, $nxtSql);
+
+            while ($nxtRow = mysqli_fetch_assoc($nxtResult)) {
+                $nxtImage = $nxtRow['image'];
+                if (!empty($nxtImage) || $nxtImage != null || $nxtImage != '') {
+                    $nxtImgPath = '../assets/images/projects/sub-imgs/' . $nxtImage;
+                    if (file_exists($nxtImgPath)) {
+                        unlink($nxtImgPath);
+                    }
+                }
+                $nxtSql2 = 'DELETE FROM project_images WHERE project_id = ' . $id . '';
+                $nxtResult2 = mysqli_query($con, $sql2);
+            }
+
+            if ($result2) {
+                return 'Project Deleted Successfully';
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
