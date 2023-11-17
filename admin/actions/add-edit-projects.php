@@ -74,8 +74,8 @@ if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image'
             $allowedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG);
             if (in_array($imageInfo[2], $allowedTypes)) {
                 $newHeight = 262;
+                $newWidth = 344;
                 list($origWidth, $origHeight) = getimagesize($_FILES['feature_image']['tmp_name']);
-                $newWidth = $newHeight * ($origWidth / $origHeight);
                 if ($extension == 'jpg' || $extension === 'jpeg') {
                     $image = imagecreatefromjpeg($_FILES['feature_image']['tmp_name']);
                 } else {

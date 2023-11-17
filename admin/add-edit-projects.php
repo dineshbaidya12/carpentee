@@ -99,14 +99,6 @@ include 'sidebar.php';
                             <span class="cross" id="cross">
                                 <img style="width: 70%;" src="assets/images/cross.png">
                             </span>
-
-                            <?php
-                            if ($mainImg != '' && file_exists('assets/images/projects/' . $mainImg)) {
-                                echo '
-                                <i class="fas fa-trash" id="remove-dp" data-id="' . $pageId . '" style="color: red; right: -50px; bottom: 0px; position: absolute; cursor:pointer;" data-toggle="tooltip" title="Remove The Profile Picture"></i>
-                                ';
-                            }
-                            ?>
                         </div>
                     </div>
                     <div class="input-group mb-3">
