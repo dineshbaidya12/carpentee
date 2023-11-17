@@ -104,6 +104,21 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="teams.php" class="nav-link 
+                    <?php
+                    if ($pagename[3] == 'teams.php' || explode('?', $pagename[3])[0] == 'add-edit-teams.php') {
+                        echo 'active';
+                    }
+                    ?>
+                    ">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Our Teams
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="testimonials.php" class="nav-link 
                     <?php
                     if ($pagename[3] == 'testimonials.php' || explode('?', $pagename[3])[0] == 'add-edit-testimonials.php') {
