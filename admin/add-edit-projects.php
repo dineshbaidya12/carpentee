@@ -182,9 +182,10 @@ include 'sidebar.php';
                         <div class="custom-file">
                             <label class="custom-file-label" for="multiple_images">Select a project sub images</label>
                             <input type="file" class="custom-file-input" id="multiple_images" accept=".png, .jpg, .jpeg" name="multiple_images[]" multiple>
+
                         </div>
                     </div>
-
+                    <p class="error" id="error-mul"></p>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -197,10 +198,16 @@ if (isset($_GET['pageid'])) {
     <script>
         $('.furniture-form').validate({
             rules: {
+                feature_image: {
+                    filesize: 5242880
+                },
                 prject_name: "required",
                 description: "required"
             },
             messages: {
+                feature_image: {
+                    filesize: "Feature image must be less than 5MB"
+                },
                 prject_name: "Please Enter the project name",
                 description: "Please write details about the project",
             }
@@ -214,12 +221,18 @@ if (isset($_GET['pageid'])) {
         //form validation
         $('.furniture-form').validate({
             rules: {
-                feature_image: "required",
+                feature_image: {
+                    required: true,
+                    filesize: 5242880
+                },
                 prject_name: "required",
                 description: "required"
             },
             messages: {
-                feature_image: "Please select a main image",
+                feature_image: {
+                    required: "Please select a main image",
+                    filesize: "Feature image must be less than 5MB"
+                },
                 prject_name: "Please Enter the project name",
                 description: "Please write details about the project",
             }
@@ -231,6 +244,10 @@ if (isset($_GET['pageid'])) {
 ?>
 
 <script>
+    $.validator.addMethod('filesize', function(value, element, param) {
+        return this.optional(element) || (element.files[0].size <= param);
+    }, 'File size must be less than {0}');
+
     // current date select autometically 
     const inputDate = document.getElementById("inputdate");
     if (inputDate.value == null || inputDate.value == '') {
@@ -262,46 +279,6 @@ if (isset($_GET['pageid'])) {
     //input trigget by img click
     $('#user-dp').on('click', function() {
         $('#profilePicInput').click();
-    });
-
-
-
-    //remove dp
-    $('#remove-dp').on('click', function(e) {
-        let id = $(this).data('id');
-        Swal.fire({
-            title: 'Are you sure you want to delete this feature image?',
-            text: 'Do you want to confirm this action?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    type: 'POST',
-                    data: {
-                        'id': id,
-                        'pageIs': 'del-featureimg'
-                    },
-                    url: 'actions/ajax-actions.php',
-                    success: function(data) {
-                        Swal.fire('Deleted Successfully', data, 'success');
-                        // setTimeout(() => {
-                        //     window.location.reload();
-                        // }, 2000);
-                        $('#user-dp').attr('src', '../images/default.png');
-                        $('#remove-dp').css('display', 'none');
-                    },
-                    error: function(data) {
-                        Swal.fire({
-                            html: data,
-                            icon: 'error',
-                        });
-                    }
-                });
-            }
-        });
     });
 
     $(document).on('click', '.cross-mul-img', function() {
@@ -351,6 +328,21 @@ if (isset($_GET['pageid'])) {
                 projectsAllSubImagesDiv.append(subSingleImgDiv);
             }
         });
+    });
+
+    $('.furniture-form').on('submit', function() {
+        var input = $('#multiple_images')[0];
+        if (input.files.length > 0) {
+            for (var i = 0; i < input.files.length; i++) {
+                var fileSize = input.files[i].size;
+                var maxSize = 5 * 1024 * 1024;
+                if (fileSize > maxSize) {
+                    $('#error-mul').html('File size of image ' + (i + 1) + ' exceeds the 5MB limit.');
+                    return false;
+                }
+            }
+        }
+        return true;
     });
 </script>
 <?php
