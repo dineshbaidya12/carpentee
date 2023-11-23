@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (isset($_SESSION['loggedin'])) {
+    header('Location: index.php');
+    exit;
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -10,6 +17,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js "></script>
+    <link href=" https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css " rel="stylesheet">
     <style>
         /* Custom variables */
         :root {
@@ -341,6 +350,7 @@
     </style>
 </head>
 
+
 <body class="img js-fullheight" style="background-image: url(assets/images/bg.jpg); height:100vh; overflow:hidden;">
     <section class="ftco-section">
         <div class="container">
@@ -382,6 +392,7 @@
         </div>
     </section>
     <script src="plugins/jquery/jquery.min.js"></script>
+
     <script>
         (function($) {
 
@@ -398,9 +409,8 @@
             fullHeight();
 
             $(".toggle-password").click(function() {
-
                 $(this).toggleClass("fa-eye fa-eye-slash");
-                var input = $($(this).attr("toggle"));
+                var input = $('#password');
                 if (input.attr("type") == "password") {
                     input.attr("type", "text");
                 } else {
@@ -420,10 +430,37 @@
                 $('#username').css('border', '');
                 $('#password').css('border', '1px solid red');
             } else {
-                $('#sigin-form').submit();
+                // $('#sigin-form').submit();
+                return true;
             }
         });
     </script>
+
+    <?php
+    if (isset($_SESSION['success_message'])) {
+        echo '<script>
+        Swal.fire({
+            title: "Success",
+            text: "' . $_SESSION['success_message'] . '",
+            icon: "success",
+        });
+    </script>';
+        unset($_SESSION['success_message']);
+    }
+    ?>
+    <?php
+    if (isset($_SESSION['error_message'])) {
+        echo '<script>
+        Swal.fire({
+            title: "Something Went Wrong",
+            text: "' . $_SESSION['error_message'] . '",
+            icon: "error",
+        });
+    </script>';
+        unset($_SESSION['error_message']);
+    }
+    ?>
+
 </body>
 
 </html>

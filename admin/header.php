@@ -1,14 +1,19 @@
 </head>
 <?php include '../configuration.php'; ?>
 <?php session_start(); ?>
+<?php
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <span class="brand-link" style="display:none;"></span>
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center" style="background:white;">
-            <img style="height: 30%;  width: 30%; object-fit: cover;" src="assets/images/preloader.gif"
-                alt="Please Wait..." height="60" width="60">
+            <img style="height: 30%;  width: 30%; object-fit: cover;" src="assets/images/preloader.gif" alt="Please Wait..." height="60" width="60">
         </div>
 
         <!-- Navbar -->

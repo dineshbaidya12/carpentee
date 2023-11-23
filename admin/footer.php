@@ -72,7 +72,7 @@ if (isset($_SESSION['error_message'])) {
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!-- <script src="dist/js/pages/dashboard.js"></script> -->
 <script>
-    $(function () {
+    $(function() {
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
