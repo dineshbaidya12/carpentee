@@ -25,7 +25,7 @@ if (isset($_SESSION['error_message'])) {
 
 <!-- /.content-wrapper -->
 <footer class="main-footer">
-    <strong>Copyright ©2023 <a href="../index.com">Das Furniture</a>.</strong>
+    <strong>Copyright ©2023 <a href="../index.php" target="_blank">Das Furniture</a>.</strong>
     All rights reserved.
 </footer>
 
