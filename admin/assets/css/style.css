@@ -86,3 +86,44 @@
     display: block !important;
     margin-bottom: 10px !important;
 }
+
+body {
+    /* background-color: #8BC6EC; */
+    background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+}
+
+body {
+    background: linear-gradient(rgba(87, 87, 87, 0.5), rgba(170, 170, 170, 0.5)), url("../images/background.png") center center/cover;
+}
+
+.main-header,
+.main-footer {
+    border-color: #8BC6EC !important;
+}
+
+.main-header,
+.content-header,
+.content-wrapper,
+.content,
+.main-footer {
+    background: transparent !important;
+    color: white !important;
+}
+
+input,
+textarea,
+select,
+.custom-file-label,
+.custom-file-label::after {
+    background: #888 !important;
+    color: black !important;
+    border-color: #888 !important;
+}
+
+input:focus {
+    outline: none;
+}
+
+.main-sidebar {
+    background: url("../images/abstract-textured-backgound_1258-30491.png") center center/cover;
+}

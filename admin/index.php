@@ -1,11 +1,6 @@
 <?php
 include 'head.php';
 ?>
-<style>
-    .content-wrapper {
-        background: url("https://wallpapers.com/images/featured/soft-aesthetic-cei80uravrnl6ltm.jpg") center center / cover;
-    }
-</style>
 <?php
 include 'header.php';
 ?>
@@ -14,7 +9,7 @@ include 'sidebar.php';
 ?>
 
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="background:transparent;">
 
     <!-- Heading Which Page -->
     <div class="content-header" style="background:transparent;">
@@ -64,7 +59,7 @@ include 'sidebar.php';
 
     <!-- Main content -->
     <section class="content" style="background:transparent;">
-        <div class="container-fluid">
+        <div class="container-fluid" style="background:transparent;">
 
 
             <div class="row">
