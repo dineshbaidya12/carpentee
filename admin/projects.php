@@ -84,9 +84,14 @@ include 'sidebar.php';
                                     <?php echo $row['name']; ?>
                                 </td>
                                 <td>
-                                    <p class="comment">
-                                        <?php echo $row['details']; ?>
-                                    </p>
+                                    <script>
+                                        var htmlContent = <?php echo json_encode($row['details']); ?>;
+                                        var elementId = '<?php echo $row['id']; ?>';
+                                    </script>
+                                    <p id="<?php echo $row['id']; ?>" class="comment"></p>
+                                    <script>
+                                        document.getElementById(elementId).innerHTML = htmlContent;
+                                    </script>
                                 </td>
                                 <td>
                                     <?php

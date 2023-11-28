@@ -5,6 +5,7 @@ include '../../configuration.php';
 $adminName = $_POST['admin_name'];
 $userName = $_POST['username'];
 $email = $_POST['email'];
+$contactEmail = $_POST['contact_email'];
 $password = $_POST['password'];
 $phone = $_POST['phone'];
 $fb = $_POST['facebook'];
@@ -30,7 +31,8 @@ if ($query) {
     $result = $query->fetch_assoc();
     $id = $result['id'];
 
-    $query = "UPDATE site_settings SET site_name = '$siteName', site_title = '$siteTitle', admin_name = '$adminName', username = '$userName', admin_pass = '$password', email = '$email', phone = '$phone', `location` = '$location', small_desc = '$comanyDesc', latitute = '$lat', longitute = '$long', fb = '$fb', insta = '$insta', tweet = '$tweet', youtube = '$yt' WHERE id = $id";
+    $query = "UPDATE site_settings SET site_name = \"$siteName\", site_title = \"$siteTitle\", admin_name = \"$adminName\", username = \"$userName\", admin_pass = \"$password\", email = \"$email\", contact_email = \"$contactEmail\", phone = \"$phone\", `location` = \"$location\", small_desc = \"$comanyDesc\", latitute = \"$lat\", longitute = \"$long\", fb = \"$fb\", insta = \"$insta\", tweet = \"$tweet\", youtube = \"$yt\" WHERE id = $id";
+
 
     if (mysqli_query($mysqli, $query)) {
         $_SESSION['success_message'] = 'Data Inserted Successfully';
@@ -40,7 +42,7 @@ if ($query) {
         exit();
     }
 } else {
-    $query = "INSERT INTO site_settings (site_name, site_title, admin_name, username, admin_pass, email, phone, 'location', small_desc, latitute, longitute, fb, insta, tweet, youtube) VALUES ('$siteName', '$siteTitle', '$adminName', '$userName', '$password', '$email', '$phone', '$location', '$comanyDesc', '$lat', '$long', '$fb', '$insta', '$tweet', '$yt')";
+    $query = "INSERT INTO site_settings (site_name, site_title, admin_name, username, admin_pass, email, phone, `location`, small_desc, latitute, longitute, fb, insta, tweet, youtube) VALUES (\"$siteName\", \"$siteTitle\", \"$adminName\", \"$userName\", \"$password\", \"$email\", \"$phone\", \"$location\", \"$comanyDesc\", \"$lat\", \"$long\", \"$fb\", \"$insta\", \"$tweet\", \"$yt\")";
 
     if (mysqli_query($mysqli, $query)) {
         $id = mysqli_insert_id($mysqli);

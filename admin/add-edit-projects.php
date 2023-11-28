@@ -57,6 +57,7 @@ include 'sidebar.php';
                 $mainImg = $row['main_img'];
                 $status = $row['status'];
                 $date = $row['created_date'];
+                $yt = $row['yt_raw'];
             }
         }
         unset($_SESSION['bkp_name']);
@@ -68,10 +69,12 @@ include 'sidebar.php';
         $details = $_SESSION['bkp_desc'] ?? '';
         $status = $_SESSION['bkp_status'] ?? '';
         $date = $_SESSION['bkp_date'] ?? '';
+        $yt = $_SESSION['bkp_yt'] ?? '';
         unset($_SESSION['bkp_name']);
         unset($_SESSION['bkp_desc']);
         unset($_SESSION['bkp_status']);
         unset($_SESSION['bkp_date']);
+        unset($_SESSION['bkp_yt']);
     }
     $mainImg = $mainImg ?? '';
     $status = $status ?? '';
@@ -133,6 +136,10 @@ include 'sidebar.php';
                     <div class="form-group">
                         <label for="inputAddress2">Description <span class="astric">*</span></label>
                         <textarea name="description" id="description" class="comment form-control" style="resize:none; margin-bottom:10px; height:180px;" required><?php echo $details ?? ''; ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="youtube">Youtube Video</label>
+                        <input type="text" class="form-control" id="youtube" name="youtube" value="<?php echo $yt ?? ''; ?>">
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -242,6 +249,16 @@ if (isset($_GET['pageid'])) {
 }
 
 ?>
+<script src="https://cdn.ckeditor.com/4.16.0/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('description');
+    // Wait for the entire window to be loaded
+    window.onload = function() {
+        // Replace the 'description' textarea with CKEditor
+        CKEDITOR.replace('description');
+    };
+</script>
+
 
 <script>
     $.validator.addMethod('filesize', function(value, element, param) {

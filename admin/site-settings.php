@@ -15,6 +15,7 @@ if ($query) {
     $adminName = $result["admin_name"];
     $username = $result["username"];
     $email = $result["email"];
+    $contactEmail = $result["contact_email"];
     $password = $result["admin_pass"];
     $phone = $result["phone"];
     $fb = $result["fb"];
@@ -100,6 +101,11 @@ if ($query) {
                     <div class="form-group">
                         <label for="email" class="form-label">Admin Email <span class="astric">*</span></label>
                         <input class="form-control form-control-sm" type="text" id="email" name="email" value="<?php echo $email ?? ''; ?>" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_email" class="form-label">Contact Email <span class="astric">*</span></label>
+                        <input class="form-control form-control-sm" type="text" id="contact_email" name="contact_email" value="<?php echo $contactEmail ?? ''; ?>" required>
                     </div>
 
                     <div class="form-group">
@@ -248,6 +254,10 @@ if ($query) {
                 required: true
             },
             email: {
+                required: true,
+                email: true
+            },
+            contact_email: {
                 required: true,
                 email: true
             },

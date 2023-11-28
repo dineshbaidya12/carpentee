@@ -7,6 +7,7 @@ $description = $_POST["description"] ?? '';
 $inputDate = $_POST["input_date"] ?? '';
 $inputStatus = $_POST["input_status"] ?? '';
 $featureImage = $_FILES["feature_image"] ?? '';
+$ytLink = $_POST["youtube"] ?? '';
 $editId = $_POST["editId"] ?? 0;
 $mulImgExist = false;
 
@@ -16,6 +17,7 @@ if ($ProjectName  == "" || $description == "" || $inputDate == "" || $inputStatu
     $_SESSION['bkp_desc'] = $description;
     $_SESSION['bkp_status'] = $inputStatus;
     $_SESSION['bkp_date'] = $inputDate;
+    $_SESSION['bkp_yt'] = $ytLink;
     header('Location: ../projects.php');
     exit;
 }
@@ -26,6 +28,7 @@ if ($_FILES['feature_image']['size'] < 1 && $editId == 0) {
     $_SESSION['bkp_desc'] = $description;
     $_SESSION['bkp_status'] = $inputStatus;
     $_SESSION['bkp_date'] = $inputDate;
+    $_SESSION['bkp_yt'] = $ytLink;
     header('Location: ../projects.php');
     exit;
 }
@@ -39,6 +42,7 @@ if ($_FILES['multiple_images']['size'][0] > 0) {
             $_SESSION['bkp_desc'] = $description;
             $_SESSION['bkp_status'] = $inputStatus;
             $_SESSION['bkp_date'] = $inputDate;
+            $_SESSION['bkp_yt'] = $ytLink;
             header('Location: ../projects.php');
             exit;
         }
@@ -98,8 +102,8 @@ if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image'
         if ($imageInfo !== false) { // Check if it's a valid image
             $allowedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG);
             if (in_array($imageInfo[2], $allowedTypes)) {
-                $newHeight = 262;
-                $newWidth = 344;
+                $newHeight = 762;
+                $newWidth = 844;
                 list($origWidth, $origHeight) = getimagesize($_FILES['feature_image']['tmp_name']);
                 if ($extension == 'jpg' || $extension === 'jpeg') {
                     $image = imagecreatefromjpeg($_FILES['feature_image']['tmp_name']);
@@ -199,6 +203,44 @@ if ($mulImgExist) {
                 }
             }
         }
+    }
+}
+
+if ($ytLink != '') {
+    $videoId = getYouTubeVideoId($ytLink);
+    if ($videoId) {
+        $iframeTag = 'https://www.youtube.com/embed/' . $videoId . '';
+        $sql3 = 'UPDATE projects SET `yt` = ?, yt_raw = ? WHERE id = ?';
+        $stmt = mysqli_prepare($con, $sql3);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, 'ssi', $iframeTag, $ytLink,  $editId);
+            $result2 = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
+    } else {
+        $_SESSION['success_message'] .= ' -- Invalid Youtube Video Link';
+    }
+} else {
+    $sql3 = 'UPDATE projects SET `yt` = "", yt_raw = "" WHERE id = ?';
+    $stmt = mysqli_prepare($con, $sql3);
+
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, 'i', $editId);
+        $result2 = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+}
+
+
+function getYouTubeVideoId($youtubeLink)
+{
+    $pattern = '/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/';
+    preg_match($pattern, $youtubeLink, $matches);
+    if (isset($matches[1])) {
+        return $matches[1];
+    } else {
+        return false;
     }
 }
 

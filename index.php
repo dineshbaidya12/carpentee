@@ -116,60 +116,41 @@ include 'header.php';
       </h2>
     </div>
     <div class="row">
-      <div class="col-lg-4">
-        <div class="box b1">
-          <div class="img-box">
-            <img src="images/s1.jpg" alt="">
+
+      <?php
+      $sql = "SELECT * FROM services WHERE status = 'active' ORDER BY id DESC";
+      $result = mysqli_query($con, $sql);
+      if ($result) {
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($result)) {
+          $i++;
+      ?>
+          <div class="col-lg-4">
+            <div class="box <?php if ($i % 2 == 1) {
+                              echo 'b1';
+                            } else {
+                              echo 'b2';
+                            } ?>">
+              <div class="img-box">
+                <img src="<?php echo 'admin/assets/images/services/' . $row['image']; ?>" alt="">
+              </div>
+              <div class="detail-box">
+                <h5>
+                  <?php echo $row['heading'] ?? ''; ?>
+                </h5>
+                <p>
+                  <?php echo $row['content'] ?? ''; ?>
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="detail-box">
-            <h5>
-              Home Wood Work
-            </h5>
-            <p>
-              Transform your living space with our expertly crafted home woodwork services. From custom-made wooden furniture to intricate wood detailing, we bring elegance and warmth to your home. Discover the beauty of natural wood in every corner of your living space with our Home Wood Work service.
-            </p>
-            <!-- <a href="">
-                Read More
-              </a> -->
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="box b2">
-          <div class="img-box">
-            <img src="images/s2.jpg" alt="">
-          </div>
-          <div class="detail-box">
-            <h5>
-              Indoor Furniture
-            </h5>
-            <p>
-              Elevate your indoor living experience with our exquisite range of indoor furniture. Our collection features a blend of comfort and style, designed to make your interiors inviting and appealing. Choose from a variety of high-quality furniture pieces to create a harmonious and cozy atmosphere indoors.
-            </p>
-            <!-- <a href="">
-                Read More
-              </a> -->
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="box b3">
-          <div class="img-box">
-            <img src="images/s3.jpg" alt="">
-          </div>
-          <div class="detail-box">
-            <h5>
-              Outdoor Furniture
-            </h5>
-            <p>
-              Embrace the great outdoors with our durable and stylish outdoor furniture solutions. Crafted to withstand the elements, our outdoor furniture adds functionality and aesthetics to your open spaces. Whether it's a garden, patio, or poolside area, our Outdoor Furniture range invites you to relax and enjoy the beauty of the outdoors in comfort.
-            </p>
-            <!-- <a href="">
-                Read More
-              </a> -->
-          </div>
-        </div>
-      </div>
+
+      <?php
+        }
+      }
+      ?>
+
+
     </div>
   </div>
 </section>
@@ -225,81 +206,50 @@ include 'header.php';
     <div class="work_container">
       <div class=" work_owl-carousel owl-carousel owl-theme ">
 
-        <div class="item">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/w1.jpg" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Furniture Work
-              </h4>
-              <p>
-                Incidunt veritatis adipisci autem repellat possimus id eos praesentium, beatae repudiandae.
-              </p>
-              <a href="">
-                View Detail
-              </a>
-            </div>
-          </div>
-        </div>
+        <?php
+        $sql = "SELECT * FROM projects WHERE status = 'active' ORDER BY created_date DESC";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+          while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+            <div class="item">
+              <div class="box" style="max-height: 262px;">
+                <div class="img-box">
+                  <img src="admin/assets/images/projects/<?php echo $row['main_img']; ?>" alt="">
+                </div>
 
-        <div class="item">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/w2.jpg" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Furniture Work
-              </h4>
-              <p>
-                Incidunt veritatis adipisci autem repellat possimus id eos praesentium, beatae repudiandae.
-              </p>
-              <a href="">
-                View Detail
-              </a>
-            </div>
-          </div>
-        </div>
+                <div class="detail-box">
+                  <h4 style="font-size:1.1rem;">
+                    <a href="project-details.php?pid=<?php echo $row['id'] ?>" style="color:white;">
+                      <?php echo $row['name']; ?>
+                    </a>
+                  </h4>
+                  <a href="project-details.php?pid=<?php echo $row['id'] ?>" style="color:white;">
+                    <p>
+                      <?php
+                      $details = $row['details'];
+                      if (strlen($details) > 150) {
+                        echo substr($details, 0, 150) . '...';
+                      } else {
+                        echo $details;
+                      }
+                      ?>
 
-        <div class="item">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/w3.jpg" alt="">
+                    </p>
+                  </a>
+                  <a href="project-details.php?pid=<?php echo $row['id'] ?>">
+                    View Detail
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="detail-box">
-              <h4>
-                Furniture Work
-              </h4>
-              <p>
-                Incidunt veritatis adipisci autem repellat possimus id eos praesentium, beatae repudiandae.
-              </p>
-              <a href="">
-                View Detail
-              </a>
-            </div>
-          </div>
-        </div>
 
-        <div class="item">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/w4.jpg" alt="">
-            </div>
-            <div class="detail-box">
-              <h4>
-                Furniture Work
-              </h4>
-              <p>
-                Incidunt veritatis adipisci autem repellat possimus id eos praesentium, beatae repudiandae.
-              </p>
-              <a href="">
-                View Detail
-              </a>
-            </div>
-          </div>
-        </div>
+        <?php
+          }
+        }
+        ?>
+
+
 
       </div>
 
@@ -345,9 +295,12 @@ include 'header.php';
         <div class="map_container">
           <div class="map">
             <div id="googleMap">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d383112.9449491444!2d88.43769474203594!3d22.556154544226665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDUyJzM4LjMiTiA4OMKwMzgnNTIuMCJF!5e0!3m2!1sen!2sus!4v1584376029939!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+              <?php
+              $map = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d383112.9449491444!2d" . $globalRow['longitute'] . "!3dd" . $globalRow['latitute'] . "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDUyJzM4LjMiTiA4OMKwMzgnNTIuMCJF!5e0!3m2!1sen!2sus!4v1584376029939!5m2!1sen!2sus"
+              ?>
+              <iframe src="<?php echo $map; ?>" width="600" height="450" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
-          </div>
+          </div>longitute
         </div>
       </div>
     </div>
@@ -366,36 +319,35 @@ include 'header.php';
     </div>
     <div class="carousel-wrap row ">
       <div class="owl-carousel client_owl-carousel">
-        <div class="item">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/client1.jpg" alt="" class="box-img">
+
+        <?php
+        $sql = "SELECT * FROM testimonials WHERE status = 'active' ORDER BY id DESC";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+          while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+            <div class="item">
+              <div class="box">
+                <div class="img-box">
+                  <img src="admin/assets/images/testimonials/<?php echo $row['image']; ?>" alt="" class="box-img">
+                </div>
+                <div class="detail-box">
+                  <p>
+                    <?php echo $row['comment']; ?>
+                  </p>
+                  <h6>
+                    <?php echo ucfirst($row['name']); ?>
+                  </h6>
+                </div>
+              </div>
             </div>
-            <div class="detail-box">
-              <p>
-                I couldn't be happier with the custom furniture Home Wood Work created for my home. Their attention to detail and craftsmanship is exceptional. It's not just furniture; it's art that enhances my living space. I highly recommend their services.
-              </p>
-              <h6>
-                Dinesh Baidya
-              </h6>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <div class="box">
-            <div class="img-box">
-              <img src="images/client2.jpg" alt="" class="box-img">
-            </div>
-            <div class="detail-box">
-              <p>
-                Home Wood Work has been my go-to for all things carpentry and furniture. They've been transforming my home for years, and I'm continuously impressed with their work. The personal touch they bring to every project is unmatched. A big thank you to the entire team!
-              </p>
-              <h6>
-                Rishi
-              </h6>
-            </div>
-          </div>
-        </div>
+        <?php
+          }
+        }
+        ?>
+
+
+
       </div>
     </div>
   </div>

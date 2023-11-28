@@ -1,5 +1,11 @@
-<?php 
+<?php
 include('configuration.php');
+$gSql = "SELECT site_title, site_name, fb, insta, tweet, youtube, small_desc, phone, latitute, longitute,  location, contact_email FROM site_settings LIMIT 1";
+$gResult = mysqli_query($con, $gSql);
+if ($gResult) {
+  $globalRow = mysqli_fetch_assoc($gResult);
+  // print_r($globalRow);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +22,7 @@ include('configuration.php');
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Das Furniture - Best Place to Decorate Your Home</title>
+  <title><?php echo $globalRow['site_title'] ?? "Das Furniture - Best Place to Decorate Your Home"; ?></title>
 
   <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
@@ -34,6 +40,7 @@ include('configuration.php');
   <link href="css/responsive.css" rel="stylesheet" />
 
 </head>
+
 <body>
 
   <div class="hero_area">
@@ -43,7 +50,7 @@ include('configuration.php');
         <nav class="navbar navbar-expand-lg custom_nav-container ">
           <a class="navbar-brand" href="index.php">
             <span>
-            Das Furniture
+              <?php echo $globalRow['site_name'] ?? "Das Furniture"; ?>
             </span>
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,7 +67,7 @@ include('configuration.php');
                   <a class="nav-link" href="about.php">About us</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="service.php"> Our Work </a>
+                  <a class="nav-link" href="work.php"> Our Work </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact Us</a>
@@ -68,22 +75,48 @@ include('configuration.php');
               </ul>
             </div>
             <div class="social_box">
-              <a href="">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-youtube-play" aria-hidden="true"></i>
-              </a>
+              <?php
+              if ($globalRow['fb'] ?? '') {
+                if ($globalRow['fb'] != '') {
+                  echo '
+                  <a href="' . $globalRow['fb'] . '" target="_blank">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                  </a>
+              ';
+                }
+              }
+              if ($globalRow['insta'] ?? '') {
+                if ($globalRow['insta'] != '') {
+                  echo '
+                  <a href="' . $globalRow['insta'] . '" target="_blank">
+                  <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+              ';
+                }
+              }
+              if ($globalRow['tweet'] ?? '') {
+                if ($globalRow['tweet'] != '') {
+                  echo '
+                  <a href="' . $globalRow['tweet'] . '" target="_blank">
+                  <i class="fa fa-twitter" aria-hidden="true"></i>
+                  </a>
+              ';
+                }
+              }
+              if ($globalRow['youtube'] ?? '') {
+                if ($globalRow['youtube'] != '') {
+                  echo '
+                  <a href="' . $globalRow['youtube'] . '" target="_blank">
+                  <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                  </a>
+              ';
+                }
+              }
+              ?>
             </div>
           </div>
         </nav>
       </div>
     </header>
 
-       <!-- end header section -->
+    <!-- end header section -->
