@@ -1,11 +1,16 @@
 /* fonts import */
 @import url("../fonts/octin_sports_rg.ttf");
 
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   color: #0c0c0c;
   background-color: #ffffff;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .layout_padding {

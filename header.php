@@ -70,7 +70,7 @@ if ($gResult) {
                   <a class="nav-link" href="work.php"> Our Work </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="contact.php">Contact Us</a>
+                  <a class="nav-link" href="index.php#contact-sec">Contact Us</a>
                 </li>
               </ul>
             </div>

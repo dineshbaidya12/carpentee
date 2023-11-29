@@ -30,7 +30,7 @@ include 'header.php';
                   We provide expert carpentry services, transforming wood into functional artistry with precision and skill.
                 </p>
                 <div class="btn-box">
-                  <a href="" class="btn1">
+                  <a href="index.php#contact-sec" class="btn1">
                     Contact Us
                   </a>
                   <!-- <a href="" class="btn2">
@@ -195,7 +195,7 @@ include 'header.php';
     <div class="heading_container">
       <h2>
         Our Works
-        <a href="" id="read-more-btn">
+        <a href="work.php" id="read-more-btn">
           See All Our Works
         </a>
       </h2>
@@ -260,7 +260,7 @@ include 'header.php';
 <!-- work section ends -->
 
 <!-- contact section -->
-<section class="contact_section layout_padding ">
+<section class="contact_section layout_padding " id="contact-sec">
   <div class="container">
     <div class="heading_container">
       <h2>
