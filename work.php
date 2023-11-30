@@ -134,7 +134,7 @@ include 'header.php';
                     }
                     ?>
                   </p>
-                  <a href="project-details.php?pid=<?php echo $id ?? 0; ?>" class="btn btn-primary click">CLick</a>
+                  <a href="project-details.php?pid=<?php echo $id ?? 0; ?>" class="btn btn-primary click">Details</a>
                 </div>
               </div>
             </div>

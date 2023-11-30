@@ -1,6 +1,6 @@
 <?php
 include('configuration.php');
-$gSql = "SELECT site_title, site_name, fb, insta, tweet, youtube, small_desc, phone, latitute, longitute,  location, contact_email FROM site_settings LIMIT 1";
+$gSql = "SELECT site_title, site_name, fb, insta, tweet, youtube, small_desc, phone, latitute, longitute,  location, contact_email, whattsapp FROM site_settings LIMIT 1";
 $gResult = mysqli_query($con, $gSql);
 if ($gResult) {
   $globalRow = mysqli_fetch_assoc($gResult);
@@ -90,6 +90,15 @@ if ($gResult) {
                   echo '
                   <a href="' . $globalRow['insta'] . '" target="_blank">
                   <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+              ';
+                }
+              }
+              if ($globalRow['whattsapp'] ?? '') {
+                if ($globalRow['whattsapp'] != '') {
+                  echo '
+                  <a href="https://wa.me/' . $globalRow['whattsapp'] . '?text=Hello%20,%20I%20Have%20a%20Query%20about%20your%20company." target="_blank">
+                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
                   </a>
               ';
                 }

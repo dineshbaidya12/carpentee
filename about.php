@@ -1,48 +1,105 @@
 <?php
 include 'header.php';
 ?>
+<style>
+  .about-us-img {
+    width: 80vw;
+    height: auto;
+    object-fit: cover;
+    object-position: top;
+    /* max-height: 400px; */
+    display: block;
+    margin: auto;
+  }
+
+  .card-img-top {
+    transition: .7s ease-in;
+  }
+
+  .card-img-top:hover {
+    transform: scale(1.2);
+  }
+
+  .card {
+    overflow: auto;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  @media (min-width: 982px) and (max-width: 5000px) {
+    .card {
+      max-width: 22rem !important;
+    }
+  }
+</style>
 <!-- contact section -->
 <section class="contact_section layout_padding ">
   <div class="container">
     <div class="heading_container">
       <h2>
-        Our Works
+        About Us
       </h2>
     </div>
     <div class="row">
-      <div class="col-md-6">
-        <div class="form_container">
-          <form action="">
-            <div>
-              <input type="text" placeholder="Your Name" />
-            </div>
-            <div>
-              <input type="text" placeholder="Phone Number" />
-            </div>
-            <div>
-              <input type="email" placeholder="Email" />
-            </div>
-            <div>
-              <input type="text" class="message-box" placeholder="Message" />
-            </div>
-            <div class="btn_box">
-              <button>
-                SEND
-              </button>
-            </div>
-          </form>
-        </div>
+      <div class="col-md-12">
+        <img src="images/about-img" alt="about us" class="about-us-img">
+        <p class="mt-5 p-5">
+          <?php
+          $sql = "SELECT * FROM about LIMIT 1";
+          $result = mysqli_query($con, $sql);
+          if ($result) {
+            echo mysqli_fetch_assoc($result)['content'];
+          }
+          ?>
+        </p>
       </div>
-      <div class="col-md-6">
-        <div class="map_container">
-          <div class="map">
-            <div id="googleMap">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d383112.9449491444!2d88.43769474203594!3d22.556154544226665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDUyJzM4LjMiTiA4OMKwMzgnNTIuMCJF!5e0!3m2!1sen!2sus!4v1584376029939!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-            </div>
+      <div class="col-12">
+        <div class="heading_container">
+          <h2>
+            Our Teams
+          </h2>
+        </div>
+
+        <div class="container">
+          <div class="row g-5">
+            <?php
+            $sql = "SELECT * FROM teams WHERE status = 'active' ORDER BY order_by ASC";
+            $result = mysqli_query($con, $sql);
+            if ($result) {
+              while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+                <div class="card col-12 col-lg-4 col-md-5 mb-4 ml-md-auto mx-auto" style="width: 18rem;">
+                  <!-- The "mb-4" class adds margin-bottom to create space between cards -->
+                  <div class="image-div" style="width:100%; overflow:hidden;">
+                    <?php
+                    if ($row['image'] == '' || $row['image'] == null) {
+                      $image = 'admin/assets/images/Default-welcomer.png';
+                    } else {
+                      if (file_exists('admin/assets/images/teams/' . $row['image'])) {
+                        $image = 'admin/assets/images/teams/' . $row['image'];
+                      } else {
+                        $image = 'admin/assets/images/Default-welcomer.png';
+                      }
+                    }
+
+                    ?>
+                    <img class="card-img-top" style="cursor:pointer;max-height: 300px;" src="<?php echo $image; ?>" alt="<?php echo $row['name'] ?? ''; ?>">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title" style="color: gray; font-size: 12px;  font-family: verdana;"><?php echo $row['role'] ?? ''; ?></h5>
+                    <h5 class="card-title"><b><?php echo $row['name'] ?? ''; ?></b></h5>
+                    <p class="card-text" style="font-size:14px; color:#797979;"><?php echo $row['description'] ?? ''; ?></p>
+                  </div>
+                </div>
+            <?php
+              }
+            }
+            ?>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 <!-- end contact section -->

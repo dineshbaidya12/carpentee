@@ -28,8 +28,10 @@ if ($query) {
     $lat = $result["latitute"];
     $long = $result["longitute"];
     $smallDesc = $result["small_desc"];
+    $whattsapp = $result["whattsapp"];
 } else {
     $profilePic = "";
+    // $phone = $phone ?? '';
 }
 ?>
 
@@ -115,8 +117,16 @@ if ($query) {
 
                     <div class="form-group">
                         <label for="phone" class="form-label">Phone <span class="astric">*</span></label>
-                        <input class="form-control form-control-sm" type="text" id="phone" name="phone" value="<?php echo $phone ?? ''; ?>" required>
+                        <?php
+                        if ($phone == 0 || $phone == '') {
+                            $phone = '';
+                        } else {
+                            $phone = $phone;
+                        }
+                        ?>
+                        <input class="form-control form-control-sm" type="number" id="phone" name="phone" value="<?php echo $phone ?? ''; ?>" required>
                     </div>
+
 
                     <div class="form-group">
                         <label for="facebook" class="form-label">Facebook</label>
@@ -136,6 +146,18 @@ if ($query) {
                     <div class="form-group">
                         <label for="youtube" class="form-label">Youtube</label>
                         <input class="form-control form-control-sm" type="text" id="youtube" name="youtube" value="<?php echo $youtube ?? ''; ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whattsapp" class="form-label">Whattsapp</label>
+                        <?php
+                        if ($whattsapp == 0 || $whattsapp == '') {
+                            $whattsapp = '';
+                        } else {
+                            $whattsapp = $whattsapp;
+                        }
+                        ?>
+                        <input class="form-control form-control-sm" type="number" id="whattsapp" name="whattsapp" value="<?php echo $whattsapp ?? ''; ?>">
                     </div>
 
                     <div class="form-group">

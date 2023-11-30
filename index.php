@@ -164,7 +164,23 @@ include 'header.php';
     <div class="row">
       <div class="col-md-6">
         <div class="img-box">
-          <img src="images/about-img.jpg" alt="">
+          <?php
+          $sql = "SELECT * FROM about LIMIT 1";
+          $result = mysqli_query($con, $sql);
+          if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $image = $row['image'];
+            $text = $row['short_content'];
+          } else {
+            $image = 'none';
+          }
+          if (file_exists('admin/assets/images/about/' . $image)) {
+            $image = 'admin/assets/images/about/' . $image;
+          } else {
+            $image = 'images/about-img.jpg';
+          }
+          ?>
+          <img src="<?php echo $image; ?>" alt="">
         </div>
       </div>
       <div class="col-md-6">
@@ -175,9 +191,11 @@ include 'header.php';
             </h2>
           </div>
           <p>
-            At Home Wood Work, we've proudly served our clients for over a decade. With a strong and satisfied customer base, we specialize in crafting customized furniture that complements your style and comfort. Our mission is to transform your living spaces into unique, artful expressions of your personality and lifestyle. Join us in shaping homes and bringing your dreams to life. Your home is our canvas, and we're here to make it beautiful.
+            <?php
+            echo  $text ?? '';
+            ?>
           </p>
-          <a href="">
+          <a href="about.php">
             Read More About Us
           </a>
         </div>
@@ -207,7 +225,7 @@ include 'header.php';
       <div class=" work_owl-carousel owl-carousel owl-theme ">
 
         <?php
-        $sql = "SELECT * FROM projects WHERE status = 'active' ORDER BY created_date DESC";
+        $sql = "SELECT * FROM projects WHERE status = 'active' ORDER BY created_date DESC LIMIT 8";
         $result = mysqli_query($con, $sql);
         if ($result) {
           while ($row = mysqli_fetch_assoc($result)) {

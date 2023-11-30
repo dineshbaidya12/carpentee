@@ -76,8 +76,8 @@ if (!empty($_FILES['profile_picture']) && is_uploaded_file($_FILES['profile_pict
         if ($imageInfo !== false) { // Check if it's a valid image
             $allowedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG);
             if (in_array($imageInfo[2], $allowedTypes)) {
-                $newWidth = 250;
-                $newHeight = 250;
+                $newWidth = 800;
+                $newHeight = 800;
                 list($origWidth, $origHeight) = getimagesize($_FILES['profile_picture']['tmp_name']);
                 if ($extension == 'jpg' || $extension === 'jpeg') {
                     $image = imagecreatefromjpeg($_FILES['profile_picture']['tmp_name']);

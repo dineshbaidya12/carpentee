@@ -35,6 +35,15 @@
               ';
                 }
               }
+              if ($globalRow['whattsapp'] ?? '') {
+                if ($globalRow['whattsapp'] != '') {
+                  echo '
+                  <a href="https://wa.me/' . $globalRow['whattsapp'] . '?text=Hello%20,%20I%20Have%20a%20Query%20about%20your%20company." target="_blank">
+                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                  </a>
+              ';
+                }
+              }
               if ($globalRow['tweet'] ?? '') {
                 if ($globalRow['tweet'] != '') {
                   echo '
