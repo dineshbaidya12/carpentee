@@ -277,3 +277,71 @@ if ($page == 'del-teams') {
         return $e;
     }
 }
+
+if ($page == 'del-contact') {
+    try {
+        $id = $_POST['id'];
+        $sql = "SELECT * FROM contact where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $sql2 = 'DELETE FROM contact WHERE id = ' . $id . '';
+            $result2 = mysqli_query($con, $sql2);
+            if ($result2) {
+                return 'Contact Deleted Successfully';
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
+
+if ($page == 'update-status') {
+    try {
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+        $sql = "SELECT * FROM contact where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+        if (mysqli_num_rows($result) > 0) {
+
+            if ($status == 'read') {
+                $upStatus = 'unread';
+            } else {
+                $upStatus = 'read';
+            }
+            // echo $upStatus;
+            $sql2 = "UPDATE contact SET `status` = '$upStatus' WHERE id = $id";
+            $result2 = mysqli_query($con, $sql2);
+            if ($result2) {
+                echo $upStatus;
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
+
+if ($page == 'update-status-read') {
+    try {
+        $id = $_POST['id'];
+        $sql = "SELECT * FROM contact where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            // echo $upStatus;
+            $sql2 = "UPDATE contact SET `status` = 'read' WHERE id = $id";
+            $result2 = mysqli_query($con, $sql2);
+            if ($result2) {
+                echo 'contact.php?c_id=' . $id;
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}

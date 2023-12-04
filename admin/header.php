@@ -9,6 +9,12 @@ if (!isset($_SESSION['loggedin'])) {
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    <style>
+        .scroll {
+            max-height: 475px;
+            overflow: auto;
+        }
+    </style>
     <div class="wrapper">
         <span class="brand-link" style="display:none;"></span>
         <!-- Preloader -->
@@ -32,14 +38,91 @@ if (!isset($_SESSION['loggedin'])) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
+                        <div class="scroll">
+                            <?php
+                            $sql = "SELECT * FROM contact ORDER BY id DESC";
+                            $result = mysqli_query($con, $sql);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+
+
+                                    <div class="dropdown-divider"></div>
+                                    <span data-id="<?php echo $row['id']; ?>" class="dropdown-item contact-list" <?php
+                                                                                                                    if ($row['status'] == 'read') {
+                                                                                                                        echo 'style="opacity:.5;"';
+                                                                                                                    }
+                                                                                                                    ?>>
+                                        <i class="fas fa-user mr-2"></i> <?php echo $row['name']; ?>
+                                        <span class="float-right text-muted text-sm">
+                                            <?php
+                                            $date = $row['date'];
+                                            $storedDate = new DateTime($date);
+                                            $currentDate = new DateTime();
+                                            $interval = $currentDate->diff($storedDate);
+                                            if ($interval->y > 0) {
+                                                echo $interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago';
+                                            } elseif ($interval->m > 0) {
+                                                echo $interval->m . ' month' . ($interval->m > 1 ? 's' : '') . ' ago';
+                                            } elseif ($interval->d > 7) {
+                                                echo floor($interval->d / 7) . ' week' . (floor($interval->d / 7) > 1 ? 's' : '') . ' ago';
+                                            } elseif ($interval->d > 1) {
+                                                echo $interval->d . ' days ago';
+                                            } elseif ($interval->d == 1) {
+                                                echo 'yesterday';
+                                            } else {
+                                                echo 'today';
+                                            }
+                                            ?>
+                                        </span>
+                                        <p class="message" style="font-size:12px;">
+                                            <?php
+                                            $message = $row['message'];
+
+                                            if (strlen($message) > 100) {
+                                                $truncatedMessage = substr($message, 0, 100) . '...';
+                                                echo $truncatedMessage;
+                                            } else {
+                                                echo $message;
+                                            }
+                                            ?>
+                                        </p>
+                                        <p style="font-size:12px">Phone - <?php echo $row['phone']; ?></p>
+                                        <p style="font-size:12px">Email - <?php echo $row['email']; ?></p>
+                                    </span>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </div>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
             </ul>
         </nav>
+
+        <script>
+            $('.contact-list').on('click', function() {
+                let id = $(this).data('id');
+                $.ajax({
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        'pageIs': 'update-status-read',
+                    },
+                    url: 'actions/ajax-actions.php',
+                    success: function(data) {
+                        console.log(data);
+                        window.location.href = data;
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            html: data,
+                            icon: 'error',
+                        });
+                    }
+                });
+            });
+        </script>

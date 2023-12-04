@@ -74,6 +74,21 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="about-us.php" class="nav-link 
+                    <?php
+                    if ($pagename[3] == 'about-us.php') {
+                        echo 'active';
+                    }
+                    ?>
+                    ">
+                        <i class="nav-icon fas fa-solid fa-info"></i>
+                        <p>
+                            About Us
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="services.php" class="nav-link 
                     <?php
                     if ($pagename[3] == 'services.php' || explode('?', $pagename[3])[0] == 'add-edit-services.php') {
@@ -114,6 +129,21 @@
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Our Teams
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="contact.php" class="nav-link 
+                    <?php
+                    if ($pagename[3] == 'contact.php') {
+                        echo 'active';
+                    }
+                    ?>
+                    ">
+                        <i class="nav-icon fas fa fa-address-book"></i>
+                        <p>
+                            Contacts
                         </p>
                     </a>
                 </li>

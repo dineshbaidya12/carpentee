@@ -43,7 +43,7 @@ include 'header.php';
     <div class="row">
       <div class="col-md-12">
         <img src="images/about-img" alt="about us" class="about-us-img">
-        <p class="mt-5 p-5">
+        <div class="mt-2 p-5">
           <?php
           $sql = "SELECT * FROM about LIMIT 1";
           $result = mysqli_query($con, $sql);
@@ -51,7 +51,7 @@ include 'header.php';
             echo mysqli_fetch_assoc($result)['content'];
           }
           ?>
-        </p>
+        </div>
       </div>
       <div class="col-12">
         <div class="heading_container">
