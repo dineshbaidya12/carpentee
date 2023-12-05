@@ -68,7 +68,7 @@ include 'header.php';
                   Crafted with care, our customized furniture is a reflection of your unique style, ensuring your space is uniquely yours.
                 </p>
                 <div class="btn-box">
-                  <a href="" class="btn1">
+                  <a href="index.php#contact-sec" class="btn1">
                     Contact Us
                   </a>
                   <!-- <a href="" class="btn2">
@@ -93,7 +93,7 @@ include 'header.php';
                   Unlock the potential of your living space with our free home consulting service, where we turn your ideas into a personalized home design.
                 </p>
                 <div class="btn-box">
-                  <a href="" class="btn1">
+                  <a href="index.php#contact-sec" class="btn1">
                     Contact Us
                   </a>
                   <!-- <a href="" class="btn2">

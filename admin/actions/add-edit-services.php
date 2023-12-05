@@ -65,8 +65,8 @@ if (!empty($_FILES['feature_image']) && is_uploaded_file($_FILES['feature_image'
         if ($imageInfo !== false) { // Check if it's a valid image
             $allowedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG);
             if (in_array($imageInfo[2], $allowedTypes)) {
-                $newWidth = 360;
-                $newHeight = 262;
+                $newWidth = 504;
+                $newHeight = 367;
                 list($origWidth, $origHeight) = getimagesize($_FILES['feature_image']['tmp_name']);
                 if ($extension == 'jpg' || $extension === 'jpeg') {
                     $image = imagecreatefromjpeg($_FILES['feature_image']['tmp_name']);
