@@ -34,14 +34,22 @@ if (!isset($_SESSION['loggedin'])) {
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
+                        <?php
+                        $sql = "SELECT * FROM contact ORDER BY id DESC";
+                        $result = mysqli_query($con, $sql);
+
+                        $sqlCount = "SELECT `status` FROM contact WHERE `status` = 'unread'";
+                        $resultCount = mysqli_query($con, $sqlCount);
+                        ?>
+                        <span class="badge badge-warning navbar-badge"><?php $c = mysqli_num_rows($resultCount);
+                                                                        if ($c > 0) {
+                                                                            echo $c;
+                                                                        } ?></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
+                        <span class="dropdown-item dropdown-header"><?php echo $c; ?> Unread Messages</span>
                         <div class="scroll">
                             <?php
-                            $sql = "SELECT * FROM contact ORDER BY id DESC";
-                            $result = mysqli_query($con, $sql);
 
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -97,7 +105,7 @@ if (!isset($_SESSION['loggedin'])) {
                             ?>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        <a href="contact.php" class="dropdown-item dropdown-footer">See All Messages</a>
                     </div>
                 </li>
             </ul>

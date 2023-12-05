@@ -96,9 +96,9 @@
             <h4>
               SIGN UP TO OUR NEWSLETTER
             </h4>
-            <form action="">
-              <input type="text" placeholder="Enter Your Email" />
-              <button type="submit">
+            <form id="newsletter-form">
+              <input type="text" placeholder="Enter Your Email" id="email-newsletter" />
+              <button type="button" id="submit-newsletter">
                 Subscribe
               </button>
             </form>
@@ -121,8 +121,74 @@
   </div>
 </footer>
 <!-- footer section -->
+<script>
+  //form submuit news letter
+
+  let submitBtnTwo = document.getElementById('submit-newsletter');
+
+  submitBtnTwo.addEventListener('click', function() {
+    let emailNewsletter = document.getElementById('email-newsletter');
+
+    if (emailNewsletter.value == '' || !/^\S+@\S+\.\S+$/.test(emailNewsletter.value)) {
+      emailNewsletter.style.border = '1px solid red';
+    } else {
+      emailNewsletter.style.border = '';
+    }
+
+    if (emailNewsletter.value == '' || !/^\S+@\S+\.\S+$/.test(emailNewsletter.value)) {
+      console.log('Validation Failed');
+    } else {
+      let data = {
+        email: emailNewsletter.value
+      };
+      let url = 'ajax-req2.php';
+      sendTheDataTwo(data, url);
+    }
 
 
+  });
+
+
+  function isValidPhoneNumberTwo(phone) {
+    return /^\d+$/.test(phone);
+  }
+
+  function sendTheDataTwo(data, url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          var response = JSON.parse(xhr.responseText);
+          if (response.status) {
+            document.getElementById('newsletter-form').reset();
+            Swal.fire({
+              title: "Thank You!",
+              text: response.message,
+              icon: "success"
+            });
+          } else {
+            Swal.fire({
+              title: "Sorry!",
+              text: response.message,
+              icon: "error"
+            });
+          }
+        } else {
+          console.error('HTTP error! Status:', xhr.status);
+        }
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error('Request failed.');
+    };
+
+    xhr.send(JSON.stringify(data));
+  }
+</script>
 <!-- jQery -->
 <script src="js/jquery-3.4.1.min.js"></script>
 <!-- bootstrap js -->
@@ -134,7 +200,6 @@
 <!-- Google Map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
 <!-- End Google Map -->
-
 </body>
 
 </html>

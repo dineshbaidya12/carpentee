@@ -35,12 +35,12 @@ include 'sidebar.php';
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Contacts</h1>
+                    <h1 class="m-0">Subscribers</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-                        <li class="breadcrumb-item active">Contacts</li>
+                        <li class="breadcrumb-item active">Subscribers</li>
                     </ol>
                 </div>
             </div>
@@ -56,11 +56,7 @@ include 'sidebar.php';
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Message</th>
                         <th>Email</th>
-                        <th>Status</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
@@ -68,40 +64,21 @@ include 'sidebar.php';
                 <tbody>
 
                     <?php
-                    if (isset($_GET['c_id'])) {
-                        $cId = $_GET['c_id'];
-                    } else {
-                        $cId = 0;
-                    }
-                    $sql = "SELECT * FROM contact ORDER BY id DESC";
+                    $sql = "SELECT * FROM subscriberss ORDER BY id DESC";
                     $result = mysqli_query($con, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                     ?>
-                            <tr class="<?php if ($cId == $row['id']) {
-                                            echo 'current_contact" style="background: #a3beff3b';
-                                        } ?>">
+                            <tr>
                                 <td>
                                     <?php echo $row['id']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['name']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['phone']; ?>
-                                </td>
-                                <td>
-                                    <?php echo $row['message']; ?>
                                 </td>
                                 <td>
                                     <?php echo $row['email']; ?>
                                 </td>
                                 <td>
                                     <?php echo $row['date']; ?>
-                                </td>
-                                <td>
-                                    <button class="status-btn" data-id="<?php echo $row['id']; ?>" data-status="<?php echo $row['status']; ?>"><?php echo $row['status']; ?></button>
                                 </td>
                                 <td>
                                     <button class="btn action-btn trash-btn" data-id="<?php echo $row['id']; ?>">
@@ -125,21 +102,13 @@ include 'sidebar.php';
     $(document).ready(function() {
         let table = new DataTable('#dataTableShowing', {
             columns: [{
-                width: '7%'
+                width: '15%'
             }, {
-                width: '12%'
+                width: '15%'
             }, {
-                width: '12%'
+                width: '40%'
             }, {
                 width: '30%'
-            }, {
-                width: '17%'
-            }, {
-                width: '5%'
-            }, {
-                width: '10%'
-            }, {
-                width: '10%'
             }],
             pageLength: 100
         });
@@ -159,7 +128,7 @@ include 'sidebar.php';
                         type: 'POST',
                         data: {
                             'id': id,
-                            'pageIs': 'del-contact'
+                            'pageIs': 'del-subs'
                         },
                         url: 'actions/ajax-actions.php',
                         success: function(data) {
@@ -177,44 +146,6 @@ include 'sidebar.php';
                         }
                     });
 
-                }
-            });
-        });
-
-        $('.status-btn').on('click', function(e) {
-            let id = $(this).data('id');
-            let status = $(this).data('status');
-            let btn = $(this);
-            Swal.fire({
-                title: 'Are you sure you want to chage status this contact?',
-                text: 'Do you want to confirm this action?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'POST',
-                        data: {
-                            'id': id,
-                            'pageIs': 'update-status',
-                            'status': status
-                        },
-                        url: 'actions/ajax-actions.php',
-                        success: function(data) {
-                            console.log(data);
-                            Swal.fire('Updated Successfully', '', 'success');
-                            btn.data('status', data);
-                            btn.text(data);
-                        },
-                        error: function(data) {
-                            Swal.fire({
-                                html: data,
-                                icon: 'error',
-                            });
-                        }
-                    });
                 }
             });
         });
@@ -238,7 +169,7 @@ include 'sidebar.php';
                 $.ajax({
                     type: 'POST',
                     data: {
-                        'pageIs': 'delete-all'
+                        'pageIs': 'delete-all-subs'
                     },
                     url: 'actions/ajax-actions.php',
                     success: function(data) {

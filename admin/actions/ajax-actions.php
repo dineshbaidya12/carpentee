@@ -299,6 +299,27 @@ if ($page == 'del-contact') {
     }
 }
 
+if ($page == 'del-subs') {
+    try {
+        $id = $_POST['id'];
+        $sql = "SELECT * FROM subscriberss where id=" . $id . "";
+        $result = mysqli_query($con, $sql);
+
+        if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            $sql2 = 'DELETE FROM subscriberss WHERE id = ' . $id . '';
+            $result2 = mysqli_query($con, $sql2);
+            if ($result2) {
+                return 'Subscriber Deleted Successfully';
+            }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
+
 if ($page == 'update-status') {
     try {
         $id = $_POST['id'];
@@ -338,6 +359,34 @@ if ($page == 'update-status-read') {
             if ($result2) {
                 echo 'contact.php?c_id=' . $id;
             }
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
+
+if ($page == 'delete-all') {
+    try {
+        $sql = "DELETE FROM contact";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+            echo 'Deleted Successfully';
+        } else {
+            return 'Update Failed: ' . mysqli_error($con);
+        }
+    } catch (\Exception $e) {
+        return $e;
+    }
+}
+
+if ($page == 'delete-all-subs') {
+    try {
+        $sql = "DELETE FROM subscriberss";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+            echo 'Deleted Successfully';
         } else {
             return 'Update Failed: ' . mysqli_error($con);
         }

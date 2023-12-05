@@ -136,7 +136,7 @@
                 <li class="nav-item">
                     <a href="contact.php" class="nav-link 
                     <?php
-                    if ($pagename[3] == 'contact.php') {
+                    if ($pagename[3] == 'contact.php' || explode('?', $pagename[3])[0] == 'contact.php') {
                         echo 'active';
                     }
                     ?>
@@ -173,6 +173,21 @@
                         <i class="nav-icon fas fa-globe"></i>
                         <p>
                             Site Settings
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="subscribers.php" class="nav-link
+                    <?php
+                    if ($pagename[3] == 'subscribers.php') {
+                        echo 'active';
+                    }
+                    ?>
+                    ">
+                        <i class="nav-icon fas fa-user-tie"></i><i class="fa-solid fa-users-line"></i>
+                        <p>
+                            Subscribers
                         </p>
                     </a>
                 </li>

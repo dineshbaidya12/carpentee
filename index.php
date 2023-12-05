@@ -9,6 +9,19 @@ include 'header.php';
     padding: 5px 16px;
     vertical-align: top;
   }
+
+  .message-box {
+    width: 100%;
+    border: none;
+    height: 150px;
+    margin-bottom: 25px;
+    padding-left: 15px;
+    outline: none;
+    color: #101010;
+    -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+    padding-top: 10px;
+  }
 </style>
 <!-- slider section -->
 <section class="slider_section ">
@@ -288,25 +301,27 @@ include 'header.php';
     <div class="row">
       <div class="col-md-6">
         <div class="form_container">
-          <form action="">
+          <form name="contact-form" id="contact-form">
             <div>
-              <input type="text" placeholder="Your Name" />
+              <input type="text" placeholder="Your Name" name="name" id="name" />
             </div>
             <div>
-              <input type="text" placeholder="Phone Number" />
+              <input type="text" placeholder="Phone Number" name="phone" id="phone" />
             </div>
             <div>
-              <input type="email" placeholder="Email" />
+              <input type="email" placeholder="Email" name="email" id="email" />
             </div>
             <div>
-              <input type="text" class="message-box" placeholder="Message" />
+              <textarea name="message-box" class="message-box" id="message-box" cols="30" rows="10" placeholder="Message" name="message" id="message"></textarea>
+              <p id="err-text" style="color:red; display:none;">Message Length Should Less Than 300 Charecters</p>
             </div>
             <div class="btn_box">
-              <button>
+              <button type="button" name="submit" id="submit-btn">
                 SEND
               </button>
             </div>
           </form>
+
         </div>
       </div>
       <div class="col-md-6">
@@ -364,15 +379,34 @@ include 'header.php';
         }
         ?>
 
-
-
       </div>
     </div>
   </div>
 </section>
 
 <!-- end client section -->
+<script src="form-script.js" type="text/javascript"></script>
+<script>
+  var maxLength = 500;
 
+  document.getElementById('message-box').addEventListener('input', function() {
+    var currentLength = this.value.length;
+
+    if (currentLength > maxLength) {
+      this.value = this.value.substring(0, maxLength);
+      document.getElementById('err-text').style.display = 'block';
+    } else {
+      document.getElementById('err-text').style.display = 'none';
+    }
+  });
+
+  document.getElementById('message-box').addEventListener('paste', function(event) {
+    var clipboardData = event.clipboardData || window.clipboardData;
+    var pastedText = clipboardData.getData('text').substring(0, maxLength);
+    document.execCommand('insertText', false, pastedText);
+    event.preventDefault();
+  });
+</script>
 <?php
 include 'footer.php';
 ?>
