@@ -58,6 +58,7 @@ include 'sidebar.php';
                 $status = $row['status'];
                 $date = $row['created_date'];
                 $yt = $row['yt_raw'];
+                $theOrderNum = $row['order_num'];
             }
         }
         unset($_SESSION['bkp_name']);
@@ -142,11 +143,11 @@ include 'sidebar.php';
                         <input type="text" class="form-control" id="youtube" name="youtube" value="<?php echo $yt ?? ''; ?>">
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 col-12 col-lg-4">
                             <label for="inputCity">Comment Date <span class="astric">*</span></label>
                             <input type="date" class="form-control" id="inputdate" name="input_date" value="<?php echo $date ?? ''; ?>">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 col-12 col-lg-4">
                             <label for="inputStatus">Status</label>
                             <select id="inputStatus" class="form-control" name="input_status">
                                 <option value="active" <?php if ($status == 'active') {
@@ -156,6 +157,10 @@ include 'sidebar.php';
                                                                 echo 'selected';
                                                             } ?>>Inctive</option>
                             </select>
+                        </div>
+                        <div class="form-group col-md-6 col-12 col-lg-4">
+                            <label for="ordernumber">Order No<span class="astric">*</span></label>
+                            <input type="number" class="form-control" id="ordernumber" name="ordernumber" value="<?php echo $theOrderNum ?? 10; ?>" required>
                         </div>
                     </div>
                     <div class="input-group mb-3">
@@ -209,7 +214,8 @@ if (isset($_GET['pageid'])) {
                     filesize: 5242880
                 },
                 prject_name: "required",
-                description: "required"
+                description: "required",
+                ordernumber: "required"
             },
             messages: {
                 feature_image: {
@@ -233,7 +239,8 @@ if (isset($_GET['pageid'])) {
                     filesize: 5242880
                 },
                 prject_name: "required",
-                description: "required"
+                description: "required",
+                ordernumber: "required"
             },
             messages: {
                 feature_image: {

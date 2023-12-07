@@ -10,6 +10,7 @@ $featureImage = $_FILES["feature_image"] ?? '';
 $ytLink = $_POST["youtube"] ?? '';
 $editId = $_POST["editId"] ?? 0;
 $mulImgExist = false;
+$ordernumber = $_POST["ordernumber"] ?? 10;
 
 if ($ProjectName  == "" || $description == "" || $inputDate == "" || $inputStatus == "") {
     $_SESSION['error_message'] = 'Please Fill All The Mendatory Feild';
@@ -52,10 +53,10 @@ if ($_FILES['multiple_images']['size'][0] > 0) {
 
 if ($editId == 0) {
     // Insert
-    $sql = "INSERT INTO projects (`name`, `details`, `status`, `created_date`) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO projects (`name`, `details`, `status`, `created_date`, `order_num`) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($con, $sql);
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ssss', $ProjectName, $description, $inputStatus, $inputDate);
+        mysqli_stmt_bind_param($stmt, 'ssssi', $ProjectName, $description, $inputStatus, $inputDate, $ordernumber);
         $result = mysqli_stmt_execute($stmt);
         if ($result) {
             $isError = false;
@@ -69,11 +70,11 @@ if ($editId == 0) {
     }
 } else {
     // Update
-    $sql = "UPDATE projects SET `name` = ?, `details` = ?, `status` = ?, `created_date` = ? WHERE id = ?";
+    $sql = "UPDATE projects SET `name` = ?, `details` = ?, `status` = ?, `created_date` = ?, `order_num` = ? WHERE id = ?";
     $stmt = mysqli_prepare($con, $sql);
 
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, 'ssssi', $ProjectName, $description, $inputStatus, $inputDate, $editId);
+        mysqli_stmt_bind_param($stmt, 'ssssii', $ProjectName, $description, $inputStatus, $inputDate, $ordernumber, $editId);
         $result = mysqli_stmt_execute($stmt);
 
         if (!$result) {

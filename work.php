@@ -2,6 +2,10 @@
 include 'header.php';
 ?>
 <style>
+  .anchor {
+    user-select: none;
+  }
+
   .card {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -66,9 +70,20 @@ include 'header.php';
 
   .details {
     padding: 15px;
-    height: 262px;
+    /* height: 230px; */
+    height: 280px;
     overflow: auto;
   }
+
+  @media only screen and (max-width: 767px) {
+    .details {
+      padding: 15px;
+      height: 285px;
+      overflow: auto;
+    }
+
+  }
+
 
   .details::-webkit-scrollbar {
     display: none;
@@ -96,6 +111,16 @@ include 'header.php';
   .heading-card {
     font-size: 1.4rem !important;
   }
+
+  .date-div {
+    display: flex;
+    justify-content: start;
+  }
+
+  .date {
+    font-size: 12px;
+    color: gray;
+  }
 </style>
 <!-- contact section -->
 <section class="contact_section layout_padding ">
@@ -109,7 +134,7 @@ include 'header.php';
     <div class="container">
       <div class="row">
         <?php
-        $sql = "SELECT * FROM projects WHERE status = 'active' ORDER BY created_date DESC";
+        $sql = "SELECT * FROM projects WHERE status = 'active' ORDER BY order_num ASC";
         $result = mysqli_query($con, $sql);
         if ($result) {
           while ($row = mysqli_fetch_assoc($result)) {
@@ -123,12 +148,63 @@ include 'header.php';
                   </a>
                 </div>
                 <div class="details">
-                  <span class="heading-card"><?php echo $row['name']; ?></span>
+                  <div class="date-div">
+                    <span class="date">
+                      <?php
+
+                      $date = explode('-', $row['created_date']);
+
+                      if ($date[1] == 01) {
+                        $month = 'January';
+                      } else if ($date[1] == '02') {
+                        $month = 'February';
+                      } else if ($date[1] == '03') {
+                        $month = 'March';
+                      } else if ($date[1] == '04') {
+                        $month = 'April';
+                      } else if ($date[1] == '05') {
+                        $month = 'May';
+                      } else if ($date[1] == '06') {
+                        $month = 'June';
+                      } else if ($date[1] == '07') {
+                        $month = 'July';
+                      } else if ($date[1] == '08') {
+                        $month = 'August';
+                      } else if ($date[1] == '09') {
+                        $month = 'September';
+                      } else if ($date[1] == '10') {
+                        $month = 'October';
+                      } else if ($date[1] == '11') {
+                        $month = 'Novermber';
+                      } else if ($date[1] == '12') {
+                        $month = 'December';
+                      }
+
+                      if ($date[2] == '01') {
+                        $day = '01<sup>st</sup>';
+                      } else if ($date[2] == '02') {
+                        $day = '02<sup>nd</sup>';
+                      } else if ($date[2] == '03') {
+                        $day = '03<sup>rd</sup>';
+                      } else if ($date[2] == '31') {
+                        $day = '31<sup>st</sup>';
+                      } else {
+                        $day = $date[2] . '<sup>th</sup>';
+                      }
+
+                      echo $day . ' ' . $month . ' ' . $date[0];
+
+
+                      ?>
+                    </span>
+                  </div>
+                  <div class="heading-card mb-lg-3"><?php echo $row['name']; ?></div>
                   <p>
                     <?php
                     $details = $row['details'];
-                    if (strlen($details) > 120) {
-                      echo substr($details, 0, 120) . '<a href="project-details.php?pid=' . $id . '">...</a>';
+                    if (mb_strlen($details) > 120) {
+                      $truncatedDetails = truncateText($details, 120);
+                      echo $truncatedDetails . '<a class="anchor" href="project-details.php?pid=' . $id . '">...</a>';
                     } else {
                       echo $details;
                     }
@@ -149,7 +225,19 @@ include 'header.php';
 
 </section>
 <!-- end contact section -->
+<?php
+function truncateText($text, $length)
+{
+  // Remove any existing HTML tags
+  $text = strip_tags($text);
 
+  // Truncate the text to the specified length
+  $truncatedText = mb_substr($text, 0, $length);
+
+  return $truncatedText;
+}
+
+?>
 <?php
 include 'footer.php';
 ?>
