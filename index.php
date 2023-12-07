@@ -524,7 +524,7 @@ include 'header.php';
 
                         $truncatedDetails = truncateText($details, 120);
 
-                        echo $truncatedDetails . '<a class="anchor" href="project-details.php?pid=' . $id . '">...</a>';
+                        echo $truncatedDetails . '<a class="anchor" href="project-details.php?pid=' . $row['id'] . '">...</a>';
                       } else {
 
                         echo $details;
