@@ -19,7 +19,7 @@ if (isset($_SESSION['loggedin'])) {
 
 <head>
 
-    <title>Admin Login</title>
+    <title>Forgot Password</title>
 
     <meta charset="utf-8">
 
@@ -51,6 +51,14 @@ if (isset($_SESSION['loggedin'])) {
 
             --white: #fff;
 
+        }
+
+        #submit-btn {
+            border-radius: 5px;
+        }
+
+        #submit-btn:hover {
+            border-radius: #ff8f51 !important;
         }
 
 
@@ -159,7 +167,7 @@ if (isset($_SESSION['loggedin'])) {
 
         .bg-primary {
 
-            background: var(--primary) !important;
+            background: #fbceb5;
 
         }
 
@@ -665,7 +673,7 @@ if (isset($_SESSION['loggedin'])) {
 
         .login-wrap {
 
-            width: 350px;
+            width: fit-content;
 
             margin: auto;
 
@@ -692,177 +700,98 @@ if (isset($_SESSION['loggedin'])) {
             user-select: none;
 
         }
+
+        input::placeholder {
+            opacity: 0.7 !important;
+        }
     </style>
 
 </head>
 
-
-
-
-
 <body class="img js-fullheight" style="background-image: url(assets/images/bg.jpg); height:100vh; overflow:hidden;">
-
     <section class="ftco-section">
-
         <div class="container">
-
             <div class="row justify-content-center">
-
                 <div class="col-md-6 text-center mb-5">
-
-                    <h2 class="heading-section">Admin Login</h2>
-
+                    <h2 class="heading-section">Forgot Password</h2>
                 </div>
-
             </div>
-
             <div class="row justify-content-center">
-
-                <div class="col-md-6 col-lg-4">
-
+                <div class="col-md-6 col-lg-8 col-12">
                     <div class="login-wrap p-0">
-
-                        <h3 class="mb-4 text-center">Please Login To Access Admin Panel</h3>
-
-                        <form action="actions/login-action.php" method="post" class="signin-form" id="sigin-form">
-
+                        <h3 class="mb-4 text-center">Please write down the correct answer to authenticate you.</h3>
+                        <form action="actions/forgot-pass-action.php" method="post" class="signin-form" id="sigin-form">
                             <div class="form-group" style="margin-bottom:20px;">
 
-                                <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                                <?php
+                                include '../configuration.php';
+                                $fQuery = $mysqli->query("SELECT id, question FROM forgot_password ORDER BY id ASC");
 
+                                if ($fQuery) {
+                                    $i = 0;
+                                    while ($fResukt = $fQuery->fetch_assoc()) {
+                                        $i++;
+                                ?>
+
+                                        <label for="username" class="form-label" style="padding-left: 20px;"><?php echo $fResukt['question']; ?> ?</label>
+                                        <input type="text" name="answer<?php echo $fResukt['id']; ?>" id="answer<?php echo $fResukt['id']; ?>" class="form-control" placeholder="Answer <?php echo $fResukt['id']; ?>">
+
+                                <?php
+                                    }
+                                }
+
+                                ?>
                             </div>
-
-                            <div class="form-group" style="margin-bottom:20px;">
-
-                                <input name="password" id="password" type="password" class="form-control" placeholder="Password">
-
-                                <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-
+                            <div class="form-group" style="margin-bottom:20px; width: 21%; cursor: pointer;">
+                                <button type="submit" class="form-control btn btn-primary submit px-3" id="submit-btn">Procced</button>
                             </div>
-
-                            <div class="form-group" style="margin-bottom:20px;">
-
-                                <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
-
-                            </div>
-
-                            <div class="form-group d-md-flex">
-
-                                <div class="w-50">
-
-                                    <label class="aa">
-
-                                        <input type="checkbox" name="remember_me" checked />
-
-                                        <p style="margin: 0px; position: absolute; top: -3px; left: 25px;">Remembered Me</p>
-
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                            <div class="w-50 text-md-right">
-
-                                <a href="forgot-password.php" style="color: #fff">Forgot Password</a>
-
-                            </div>
-
                         </form>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </section>
-
     <script src="plugins/jquery/jquery.min.js"></script>
-
-
-
     <script>
         (function($) {
-
-
-
             "use strict";
-
-
-
             var fullHeight = function() {
-
-
-
                 $('.js-fullheight').css('height', $(window).height());
-
                 $(window).resize(function() {
-
                     $('.js-fullheight').css('height', $(window).height());
-
                 });
-
-
-
             };
-
             fullHeight();
-
-
-
             $(".toggle-password").click(function() {
-
                 $(this).toggleClass("fa-eye fa-eye-slash");
-
                 var input = $('#password');
-
                 if (input.attr("type") == "password") {
-
                     input.attr("type", "text");
-
                 } else {
-
                     input.attr("type", "password");
-
                 }
-
             });
-
-
-
         })(jQuery);
-
-
-
         $('#sigin-form').on('submit', function(e) {
-
-            if ($('#username').val() == '') {
-
+            if ($('#answer1').val() == '') {
                 e.preventDefault();
-
-                $('#username').css('border', '1px solid red');
-
-                $('#password').css('border', '');
-
-            } else if ($('#password').val() == '') {
-
+                $('#answer1').css('border', '1px solid red');
+                $('#answer2').css('border', '');
+                $('#answer3').css('border', '');
+            } else if ($('#answer2').val() == '') {
                 e.preventDefault();
-
-                $('#username').css('border', '');
-
-                $('#password').css('border', '1px solid red');
-
+                $('#answer2').css('border', '1px solid red');
+                $('#answer1').css('border', '');
+                $('#answer3').css('border', '');
+            } else if ($('#answer3').val() == '') {
+                e.preventDefault();
+                $('#answer3').css('border', '1px solid red');
+                $('#answer1').css('border', '');
+                $('#answer2').css('border', '');
             } else {
-
                 // $('#sigin-form').submit();
-
                 return true;
-
             }
-
         });
     </script>
 
@@ -914,6 +843,13 @@ if (isset($_SESSION['loggedin'])) {
 
     ?>
 
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                ...
+            </div>
+        </div>
+    </div>
 
 </body>
 

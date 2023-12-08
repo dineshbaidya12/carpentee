@@ -40,6 +40,27 @@ $comanyDesc = $_POST['comany_desc'];
 
 $whattsapp = $_POST['whattsapp'];
 
+
+// ----------- Question Answer ----------------- //
+
+$questions = [];
+$answers = [];
+
+for ($i = 1; $i <= 3; $i++) {
+    $questions[] = $mysqli->real_escape_string($_POST["question$i"] ?? '');
+    $answers[] = $mysqli->real_escape_string($_POST["answer$i"] ?? '');
+}
+
+for ($i = 0; $i < 3; $i++) {
+    $query = "UPDATE forgot_password SET question = '{$questions[$i]}', answer = '{$answers[$i]}' WHERE id = " . ($i + 1);
+    $mysqli->query($query);
+}
+
+// ----------- Question Answer ----------------- //
+
+
+
+
 if (!is_numeric($whattsapp)) {
 
     $whattsapp = '0';
@@ -107,6 +128,8 @@ if ($query) {
         exit();
     }
 }
+
+
 
 
 

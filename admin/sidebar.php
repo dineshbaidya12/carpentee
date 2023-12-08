@@ -120,7 +120,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'index.php' || $pagename[2] == '') {
+                    if ($pagename[3] == 'index.php' || $pagename[3] == '') {
 
                         echo 'active';
                     }
@@ -149,7 +149,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'about-us.php') {
+                    if ($pagename[3] == 'about-us.php') {
 
                         echo 'active';
                     }
@@ -178,7 +178,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'services.php' || explode('?', $pagename[2])[0] == 'add-edit-services.php') {
+                    if ($pagename[3] == 'services.php' || explode('?', $pagename[3])[0] == 'add-edit-services.php') {
 
                         echo 'active';
                     }
@@ -207,7 +207,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'projects.php' || explode('?', $pagename[2])[0] == 'add-edit-projects.php') {
+                    if ($pagename[3] == 'projects.php' || explode('?', $pagename[3])[0] == 'add-edit-projects.php') {
 
                         echo 'active';
                     }
@@ -236,7 +236,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'teams.php' || explode('?', $pagename[2])[0] == 'add-edit-teams.php') {
+                    if ($pagename[3] == 'teams.php' || explode('?', $pagename[3])[0] == 'add-edit-teams.php') {
 
                         echo 'active';
                     }
@@ -265,7 +265,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'contact.php' || explode('?', $pagename[2])[0] == 'contact.php') {
+                    if ($pagename[3] == 'contact.php' || explode('?', $pagename[3])[0] == 'contact.php') {
 
                         echo 'active';
                     }
@@ -294,7 +294,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'testimonials.php' || explode('?', $pagename[2])[0] == 'add-edit-testimonials.php') {
+                    if ($pagename[3] == 'testimonials.php' || explode('?', $pagename[3])[0] == 'add-edit-testimonials.php') {
 
                         echo 'active';
                     }
@@ -321,7 +321,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'site-settings.php') {
+                    if ($pagename[3] == 'site-settings.php') {
 
                         echo 'active';
                     }
@@ -350,7 +350,7 @@
 
                     <?php
 
-                    if ($pagename[2] == 'subscribers.php') {
+                    if ($pagename[3] == 'subscribers.php') {
 
                         echo 'active';
                     }
