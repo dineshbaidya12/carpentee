@@ -191,7 +191,7 @@ if (!empty($_FILES['profile_picture']) && is_uploaded_file($_FILES['profile_pict
     }
 }
 
-echo mysqli_error($con);
+// echo mysqli_error($con);
 header('Location: ../site-settings.php');
 
 exit();
