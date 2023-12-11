@@ -136,98 +136,62 @@ if ($query) {
 if (!empty($_FILES['profile_picture']) && is_uploaded_file($_FILES['profile_picture']['tmp_name'])) {
 
     $uploadDir = '../assets/images/admin-details/';
-
     $name = str_replace(' ', '_', $userName);
-
     $filename = $_FILES['profile_picture']['name'];
-
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
-
     $uploadFile = 'admin_1.jpg';
-
-
-
+    $currentDateTime = date('Ymd_His');
+    $modifiedFileName = $currentDateTime . '_' . $uploadFile;
     $imageInfo = getimagesize($_FILES['profile_picture']['tmp_name']);
-
     if ($imageInfo !== false) { // Check if it's a valid image
-
         $allowedTypes = array(IMAGETYPE_JPEG, IMAGETYPE_PNG);
-
         if (in_array($imageInfo[2], $allowedTypes)) {
-
             $newWidth = 300;
-
             $newHeight = 300;
-
-
-
             list($origWidth, $origHeight) = getimagesize($_FILES['profile_picture']['tmp_name']);
-
-
-
             if ($extension == 'jpg' || $extension === 'jpeg' || $extension == 'JPG') {
-
                 $image = imagecreatefromjpeg($_FILES['profile_picture']['tmp_name']);
             } else {
-
                 $image = imagecreatefrompng($_FILES['profile_picture']['tmp_name']);
             }
-
-
-
             $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
-
             imagecopyresized($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
-
-
-
-            $resizedFilePath = $uploadDir . $uploadFile;
-
+            $resizedFilePath = $uploadDir . $modifiedFileName;
             imagejpeg($resizedImage, $resizedFilePath);
-
-
-
             imagedestroy($image);
-
             imagedestroy($resizedImage);
-
-
-
             if ($id != 0) {
-
                 // Use prepared statement to update the image filename
 
+                $sqlGetImg = "SELECT admin_img FROM site_settings WHERE id= $id";
+                $resultGetImg = mysqli_query($con, $sqlGetImg);
+                if ($resultGetImg) {
+                    $rowGetImg = mysqli_fetch_assoc($resultGetImg);
+                    $existingImg = $rowGetImg['admin_img'];
+
+                    if (file_exists($uploadDir . $existingImg)) {
+                        unlink($uploadDir . $existingImg);
+                    }
+                }
+
                 $sql2 = 'UPDATE site_settings SET `admin_img` = ? WHERE id = ?';
-
                 $stmt = mysqli_prepare($con, $sql2);
-
-
-
                 if ($stmt) {
-
-                    mysqli_stmt_bind_param($stmt, 'si', $uploadFile, $id);
-
+                    mysqli_stmt_bind_param($stmt, 'si', $modifiedFileName, $id);
                     $result2 = mysqli_stmt_execute($stmt);
-
-
-
                     if (!$result2) {
-
                         $_SESSION['success_message'] .= ' But unable to upload profile picture becouse - ' . mysqli_error($con);
                     }
-
-                    mysqli_stmt_close($stmt);
                 } else {
-
                     $_SESSION['success_message'] .= ' But unable to upload profile picture becouse - ' . mysqli_error($con);
                 }
+                mysqli_stmt_close($stmt);
             }
         }
     }
 }
 
-// echo mysqli_error($con);
-
+echo mysqli_error($con);
 header('Location: ../site-settings.php');
 
 exit();
