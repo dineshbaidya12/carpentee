@@ -73,7 +73,7 @@ include 'header.php';
     <div class="heading_container">
 
       <h2>
-
+  
         About Us
 
       </h2>
@@ -112,7 +112,8 @@ include 'header.php';
 
         <div class="mt-2 p-5">
 
-          <?php
+          <?php 
+          //get the content from database and print
           echo $content;
           ?>
 
